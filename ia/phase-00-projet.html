@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projet Phase 00 — Quatre scripts de logique · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-ia">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-00-cours.html" class="nav-cta nav-cta-violet">Revoir le cours</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-ia.html">Parcours IA</a><span>/</span><span>Projet · Phase 00</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-projet">Projet · Phase 00</span>
+      <span class="lesson-duration">≈ 1h</span>
+    </div>
+    <h1 class="lesson-title">Quatre scripts de logique</h1>
+    <p class="lesson-intro">Quatre petits problèmes, quatre petits scripts Python. Rien de spectaculaire — juste de quoi vérifier que les bases (variables, conditions, boucles, fonctions, listes) sont vraiment acquises avant d'avancer.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Objectif</h2>
+    <p>Écris <strong>quatre scripts Python séparés</strong>, un par problème ci-dessous. Chaque script doit être autonome, s'exécuter sans erreur, et afficher un résultat clair dans la console.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Les quatre problèmes</h2>
+
+    <div class="brief-box">
+      <h3>1. Pair, impair ou multiple de 3</h3>
+      <p>Pour chaque nombre de 1 à 50 : affiche "Fizz" s'il est multiple de 3, "Buzz" s'il est pair, sinon le nombre lui-même.</p>
+    </div>
+
+    <div class="brief-box">
+      <h3>2. Moyenne et mention</h3>
+      <p>À partir d'une liste de notes, calcule la moyenne avec une fonction, puis affiche une mention : "Insuffisant" (&lt;10), "Admis" (10-15), "Très bien" (&gt;15).</p>
+    </div>
+
+    <div class="brief-box">
+      <h3>3. Le mot le plus long</h3>
+      <p>Dans une liste de mots donnée, trouve et affiche le mot le plus long — sans utiliser de fonction déjà toute faite pour ça, en le faisant "à la main" avec une boucle.</p>
+    </div>
+
+    <div class="brief-box">
+      <h3>4. Compteur de lettres</h3>
+      <p>Pour un mot donné, construis un dictionnaire qui compte combien de fois chaque lettre apparaît, puis affiche-le.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Consignes</h2>
+    <div class="checklist">
+      <div class="check-row">
+        <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <p>Un fichier <code>.py</code> par problème, avec un nom clair (ex. <code>fizzbuzz.py</code>)</p>
+      </div>
+      <div class="check-row">
+        <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <p>Au moins une fonction utilisée dans les problèmes 2, 3 et 4</p>
+      </div>
+      <div class="check-row">
+        <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <p>Teste chaque script avec au moins trois jeux de données différents</p>
+      </div>
+      <div class="check-row">
+        <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <p>Un affichage lisible dans la console pour chaque résultat</p>
+      </div>
+    </div>
+
+    <div class="example-callout">
+      <div class="def-label">Exemple de sortie attendue (problème 2)</div>
+      <p>Moyenne calculée : 13.5 → Mention : Admis</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Critère de réussite</h2>
+    <p>Chacun des quatre scripts tourne sans erreur et donne le bon résultat sur tous les cas de test que tu lui donnes — y compris des cas un peu piégeux (liste vide, mot avec des lettres répétées, nombre négatif).</p>
+  </section>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-00-cours.html" class="lesson-nav-btn lnb-ghost">← Revoir le cours</a>
+  <a href="editor-ia.html?phase=00" class="lesson-nav-btn lnb-primary">Ouvrir l'éditeur →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

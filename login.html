@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Connexion — DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+
+<style>
+.auth-shell {
+  min-height: 100dvh; display: flex; align-items: center; justify-content: center;
+  padding: 100px 20px 40px;
+}
+.auth-card {
+  width: 100%; max-width: 400px; background: var(--ink2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 2.2rem 2rem;
+}
+.auth-logo { display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
+.auth-title { font-family: var(--display); font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 6px; }
+.auth-sub { font-size: .85rem; color: var(--muted); text-align: center; margin-bottom: 28px; }
+.auth-field { margin-bottom: 16px; }
+.auth-field label { display: block; font-family: var(--mono); font-size: .72rem; color: var(--muted); margin-bottom: 6px; }
+.auth-field input {
+  width: 100%; background: var(--ink3); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 11px 14px; color: var(--text); font-family: var(--body); font-size: .9rem;
+}
+.auth-field input:focus { outline: none; border-color: var(--orange); }
+.auth-submit {
+  width: 100%; background: var(--orange); color: var(--ink); border: none; border-radius: var(--radius);
+  padding: 13px; font-family: var(--display); font-size: .88rem; font-weight: 700; cursor: pointer;
+  transition: transform .2s, box-shadow .2s; margin-top: 6px;
+}
+.auth-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 22px var(--orange-glow); }
+.auth-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+.auth-switch { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 20px; }
+.auth-switch button { background: none; border: none; color: var(--orange); font-weight: 600; cursor: pointer; font-size: .82rem; }
+.auth-msg {
+  font-size: .8rem; padding: 10px 14px; border-radius: var(--radius); margin-bottom: 16px; display: none;
+}
+.auth-msg.show { display: block; }
+.auth-msg.error { background: rgba(255,71,87,.1); border: 1px solid rgba(255,71,87,.25); color: #FF8A94; }
+.auth-msg.success { background: var(--green-dim); border: 1px solid rgba(0,200,150,.25); color: var(--green); }
+</style>
+</head>
+<body>
+
+<main class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <a href="index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+    </div>
+    <div class="auth-title" id="auth-title">Content de te revoir</div>
+    <div class="auth-sub" id="auth-sub">Connecte-toi pour retrouver ta progression</div>
+
+    <div class="auth-msg" id="auth-msg"></div>
+
+    <form id="auth-form">
+      <div class="auth-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" required autocomplete="email"/>
+      </div>
+      <div class="auth-field">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" required autocomplete="current-password" minlength="6"/>
+      </div>
+      <button type="submit" class="auth-submit" id="auth-submit">Se connecter</button>
+    </form>
+
+    <div class="auth-switch">
+      <span id="switch-text">Pas encore de compte ?</span>
+      <button type="button" id="switch-btn" onclick="toggleMode()">Créer un compte</button>
+    </div>
+  </div>
+</main>
+
+<script>
+let mode = "signin"; // ou "signup"
+
+function toggleMode() {
+  mode = mode === "signin" ? "signup" : "signin";
+  const isSignup = mode === "signup";
+  document.getElementById("auth-title").textContent = isSignup ? "Crée ton compte" : "Content de te revoir";
+  document.getElementById("auth-sub").textContent = isSignup ? "Un compte pour garder ta progression sur les deux parcours" : "Connecte-toi pour retrouver ta progression";
+  document.getElementById("auth-submit").textContent = isSignup ? "Créer mon compte" : "Se connecter";
+  document.getElementById("switch-text").textContent = isSignup ? "Déjà un compte ?" : "Pas encore de compte ?";
+  document.getElementById("switch-btn").textContent = isSignup ? "Se connecter" : "Créer un compte";
+  hideMsg();
+}
+
+function showMsg(type, text) {
+  const el = document.getElementById("auth-msg");
+  el.className = "auth-msg show " + type;
+  el.textContent = text;
+}
+function hideMsg() {
+  document.getElementById("auth-msg").className = "auth-msg";
+}
+
+document.getElementById("auth-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  hideMsg();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const btn = document.getElementById("auth-submit");
+  btn.disabled = true;
+
+  const { data, error } = mode === "signup"
+    ? await devyoonSignUp(email, password)
+    : await devyoonSignIn(email, password);
+
+  btn.disabled = false;
+
+  if (error) {
+    showMsg("error", error.message === "Configuration Supabase manquante."
+      ? "Configuration Supabase manquante — vérifie assets/config.js."
+      : error.message);
+    return;
+  }
+
+  if (mode === "signup" && data.user && !data.session) {
+    showMsg("success", "Compte créé — vérifie ta boîte mail pour confirmer ton adresse avant de te connecter.");
+    return;
+  }
+
+  window.location.href = "dashboard.html";
+});
+
+// Si déjà connecté, redirige directement vers le dashboard
+(async () => {
+  const user = await devyoonGetUser();
+  if (user) window.location.href = "dashboard.html";
+})();
+</script>
+
+</body>
+</html>

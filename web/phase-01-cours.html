@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 01 — Structure & mise en forme · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-01-projet.html" class="nav-cta">Voir le projet</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 01</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours · Phase 01</span>
+      <span class="lesson-duration">≈ 40 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Structure & mise en forme</h1>
+    <p class="lesson-intro">Tu sais maintenant ce qui se passe côté réseau. Cette phase attaque le concret : structurer une page avec du HTML sémantique, puis la mettre en forme avec CSS. C'est la base de tout ce que tu construiras ensuite.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Le squelette d'un document HTML</h2>
+    <p>Une page HTML a toujours la même ossature de départ. Le <code>&lt;head&gt;</code> contient les métadonnées (titre, liens vers le CSS), le <code>&lt;body&gt;</code> contient tout ce qui est visible.</p>
+
+    <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="c-str">"fr"</span>&gt;
+&lt;head&gt;
+  &lt;meta charset=<span class="c-str">"UTF-8"</span>&gt;
+  &lt;title&gt;Ma page&lt;/title&gt;
+  &lt;link rel=<span class="c-str">"stylesheet"</span> href=<span class="c-str">"style.css"</span>&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  <span class="c-com">&lt;!-- contenu visible --&gt;</span>
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+
+    <h3>Les balises sémantiques</h3>
+    <p>Plutôt que d'empiler des <code>&lt;div&gt;</code> partout, le HTML moderne propose des balises qui décrivent le <strong>rôle</strong> de chaque zone. Un navigateur, un moteur de recherche ou un lecteur d'écran comprennent mieux une page bien structurée.</p>
+
+    <ul>
+      <li><code>&lt;header&gt;</code> — l'en-tête de la page ou d'une section</li>
+      <li><code>&lt;nav&gt;</code> — un bloc de navigation</li>
+      <li><code>&lt;main&gt;</code> — le contenu principal, unique par page</li>
+      <li><code>&lt;section&gt;</code> — un regroupement thématique de contenu</li>
+      <li><code>&lt;article&gt;</code> — un contenu autonome (un article, une carte)</li>
+      <li><code>&lt;footer&gt;</code> — le pied de page</li>
+    </ul>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>Le <strong>HTML sémantique</strong> consiste à choisir des balises qui décrivent le sens du contenu, pas seulement son apparence.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Le modèle de boîte CSS</h2>
+    <p>En CSS, chaque élément est une boîte rectangulaire composée de quatre couches, de l'intérieur vers l'extérieur.</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="400" height="240" fill="none" stroke="#FF6B35" stroke-width="1" stroke-dasharray="4 4"/>
+        <text x="20" y="26" fill="#FF6B35" font-family="Fira Code" font-size="10">margin</text>
+
+        <rect x="40" y="40" width="340" height="180" fill="#1C2333" stroke="#1E2D45"/>
+        <text x="50" y="56" fill="#7A8BAD" font-family="Fira Code" font-size="10">border</text>
+
+        <rect x="65" y="65" width="290" height="130" fill="#0A0E1A" stroke="#1E2D45"/>
+        <text x="75" y="81" fill="#7A8BAD" font-family="Fira Code" font-size="10">padding</text>
+
+        <rect x="95" y="95" width="230" height="70" fill="#FF6B35" opacity=".18" stroke="#FF6B35"/>
+        <text x="210" y="135" text-anchor="middle" fill="#F0F4FF" font-family="Fira Code" font-size="12">content</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">Content → padding (espace intérieur) → border (bordure) → margin (espace extérieur).</p>
+
+    <div class="code-block"><code>.carte {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid <span class="c-str">#1E2D45</span>;
+  margin: 16px;
+}</code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Sélecteurs CSS</h2>
+    <p>Un sélecteur détermine à quels éléments s'applique une règle de style.</p>
+
+    <div class="code-block"><code><span class="c-com">/* toutes les balises p */</span>
+p { color: <span class="c-str">#F0F4FF</span>; }
+
+<span class="c-com">/* la classe "carte" */</span>
+.carte { border-radius: 10px; }
+
+<span class="c-com">/* l'identifiant unique "hero" */</span>
+#hero { padding: 60px; }
+
+<span class="c-com">/* tous les liens à l'intérieur d'un nav */</span>
+nav a { text-decoration: none; }
+
+<span class="c-com">/* état au survol */</span>
+.btn:hover { opacity: .9; }</code></div>
+
+    <p>Retiens l'essentiel : la <strong>classe</strong> (<code>.nom</code>) sert pour un style réutilisé sur plusieurs éléments, l'<strong>identifiant</strong> (<code>#nom</code>) pour un élément unique sur la page.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Typographie et couleurs</h2>
+    <p>Deux propriétés suffisent pour poser une bonne base typographique : <code>font-family</code> pour la police, <code>font-size</code> pour la taille. Pour les couleurs, tu croiseras surtout deux notations.</p>
+
+    <div class="code-block"><code>body {
+  font-family: <span class="c-str">'Inter'</span>, sans-serif;
+  font-size: 16px;
+  color: <span class="c-str">#F0F4FF</span>;         <span class="c-com">/* notation hexadécimale */</span>
+  background: rgb(10, 14, 26); <span class="c-com">/* notation rgb */</span>
+}</code></div>
+
+    <p>Une bonne pratique dès le départ : choisis une ou deux polices maximum, et une palette de 3-4 couleurs cohérentes — c'est exactement ce que fait ce site.</p>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>Le HTML sémantique décrit le sens du contenu, pas seulement son apparence.</li>
+      <li>Chaque élément CSS est une boîte : content, padding, border, margin.</li>
+      <li>Les classes servent aux styles réutilisés, les identifiants aux éléments uniques.</li>
+      <li>Une base typographique cohérente repose sur peu de polices et une palette limitée.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="../parcours-web.html" class="lesson-nav-btn lnb-ghost">← Retour au parcours</a>
+  <a href="phase-01-projet.html" class="lesson-nav-btn lnb-primary">Passer au projet →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

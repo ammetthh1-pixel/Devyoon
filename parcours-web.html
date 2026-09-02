@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Parcours Web — DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="index.html#principe">Le principe</a>
+    <a href="index.html#parcours">Les parcours</a>
+    <a href="parcours-ia.html">Parcours IA</a>
+    <a href="login.html" style="opacity:.85" id="nav-login-link">Se connecter</a>
+    <a href="web/phase-00-cours.html" class="nav-cta">Commencer la Phase 0</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══ EN-TÊTE DE PARCOURS ══ -->
+<section class="subpage-hero">
+  <div class="hero-glow glow-a"></div>
+  <div class="subpage-inner">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span>/</span><span>Parcours Web</span></div>
+    <div class="track-pill track-pill-web">Parcours · Développement Web</div>
+    <h1 class="subpage-title">Du HTML à une application<br>complète, <span class="accent">déployée</span>.</h1>
+    <p class="subpage-sub">8 phases, chacune avec son cours et son projet à livrer. Tu avances à ton rythme — rien ne se débloque tant que le projet précédent n'est pas terminé.</p>
+    <div class="subpage-meta">
+      <div class="meta-item"><span class="meta-num">8</span><span class="meta-label">phases</span></div>
+      <div class="meta-item"><span class="meta-num">8</span><span class="meta-label">projets complets</span></div>
+      <div class="meta-item"><span class="meta-num">5</span><span class="meta-label">langages & outils</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LES PHASES ══ -->
+<section class="section" id="phases">
+  <div class="section-inner">
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">00</span>
+          <div>
+            <div class="phase-title">Comment marche le web</div>
+            <div class="phase-tags"><span class="ph-tag">Théorie</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-open">Disponible</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Client/serveur, navigateur, DNS, requêtes HTTP — les mécanismes invisibles derrière chaque page que tu visites.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Schéma commenté du trajet complet d'une requête, de la barre d'adresse à l'affichage de la page.</p>
+        </div>
+      </div>
+      <a href="web/phase-00-cours.html" class="phase-cta cta-web">Commencer cette phase</a>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">01</span>
+          <div>
+            <div class="phase-title">Structure & mise en forme</div>
+            <div class="phase-tags"><span class="ph-tag">HTML</span><span class="ph-tag">CSS</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-open">Disponible</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Balises sémantiques, hiérarchie du document, boîte CSS, sélecteurs, typographie et couleurs.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Une page personnelle complète, structurée et stylée du haut en bas — ton premier livrable réel.</p>
+        </div>
+      </div>
+      <a href="web/phase-01-cours.html" class="phase-cta cta-web">Commencer cette phase</a>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">02</span>
+          <div>
+            <div class="phase-title">Responsive & mise en page avancée</div>
+            <div class="phase-tags"><span class="ph-tag">CSS</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Flexbox, Grid, media queries — construire des mises en page qui s'adaptent à tous les écrans.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Un site vitrine responsive, testé et fonctionnel du mobile au grand écran.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 01</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">03</span>
+          <div>
+            <div class="phase-title">Interactivité</div>
+            <div class="phase-tags"><span class="ph-tag">JavaScript</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Variables, fonctions, DOM, événements — donner vie à une page statique.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Une application interactive complète (liste de tâches ou quiz) sans framework.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 02</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">04</span>
+          <div>
+            <div class="phase-title">Outils pro</div>
+            <div class="phase-tags"><span class="ph-tag">Git</span><span class="ph-tag">Terminal</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Versionner son code, travailler en ligne de commande, publier un projet.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Un dépôt Git propre et un projet déployé en ligne, accessible par un lien.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 03</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">05</span>
+          <div>
+            <div class="phase-title">Framework front</div>
+            <div class="phase-tags"><span class="ph-tag">React</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Composants, état, props — penser une interface en briques réutilisables.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Une application front complète avec plusieurs vues et une vraie gestion d'état.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 04</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">06</span>
+          <div>
+            <div class="phase-title">Back-end & données</div>
+            <div class="phase-tags"><span class="ph-tag">Node.js</span><span class="ph-tag">Base de données</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Serveur, routes, base de données — faire vivre des données au-delà du navigateur.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Une API fonctionnelle qui lit et écrit dans une vraie base de données.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 05</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">07</span>
+          <div>
+            <div class="phase-title">Projet final full-stack</div>
+            <div class="phase-tags"><span class="ph-tag">Front + Back</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Assembler tout ce qui précède : architecture, authentification, déploiement complet.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Une application complète, front + back, déployée et utilisable par n'importe qui.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 06</span>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo"><span class="logo-name">Dev<span>Yoon</span></span></div>
+      <p>Deux parcours, une même méthode : un cours structuré, un projet complet, une phase à la fois.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Parcours</h4>
+      <ul><li><a href="parcours-web.html">Développement Web</a></li><li><a href="parcours-ia.html">Intelligence Artificielle</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Plateforme</h4>
+      <ul><li><a href="index.html#principe">Le principe</a></li><li><a href="index.html#devkef">DevKëf</a></li><li><a href="login.html">Se connecter</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>À propos</h4>
+      <ul><li><a href="#">Notre histoire</a></li><li><a href="#">Contact</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 DevYoon. Tous droits réservés.</span>
+    <div class="footer-made">Fait avec 💙 au Sénégal <span class="flag">🇸🇳</span></div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  (async () => {
+    const user = await devyoonGetUser();
+    if (user) {
+      const link = document.getElementById('nav-login-link');
+      if (link) { link.textContent = 'Mon tableau de bord'; link.href = 'dashboard.html'; }
+    }
+  })();
+</script>
+
+</body>
+</html>

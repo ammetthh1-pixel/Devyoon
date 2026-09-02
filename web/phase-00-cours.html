@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 00 — Comment marche le web · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-00-projet.html" class="nav-cta">Voir le projet</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 00</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours · Phase 00</span>
+      <span class="lesson-duration">≈ 25 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Comment marche le web</h1>
+    <p class="lesson-intro">Avant d'écrire une seule ligne de HTML, comprends ce qui se passe réellement entre le moment où tu tapes une adresse et celui où la page s'affiche. C'est la base sur laquelle tout le reste du parcours repose.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Client et serveur</h2>
+    <p>Le web repose sur une relation simple entre deux rôles : le <strong>client</strong> (ton navigateur) qui demande quelque chose, et le <strong>serveur</strong> (un ordinateur ailleurs dans le monde) qui répond.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>Un <strong>serveur</strong> est un ordinateur toujours allumé et connecté à internet, dont le rôle est d'attendre des demandes et d'y répondre — en général en renvoyant une page, une image ou des données.</p>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="50" width="130" height="60" rx="10" fill="#1C2333" stroke="#1E2D45"/>
+        <text x="85" y="85" text-anchor="middle" fill="#F0F4FF" font-family="Space Grotesk" font-size="14" font-weight="700">Client</text>
+        <rect x="410" y="50" width="130" height="60" rx="10" fill="#1C2333" stroke="#1E2D45"/>
+        <text x="475" y="85" text-anchor="middle" fill="#F0F4FF" font-family="Space Grotesk" font-size="14" font-weight="700">Serveur</text>
+
+        <line x1="150" y1="65" x2="405" y2="65" stroke="#FF6B35" stroke-width="1.5"/>
+        <polygon points="405,60 415,65 405,70" fill="#FF6B35"/>
+        <text x="280" y="55" text-anchor="middle" fill="#FF6B35" font-family="Fira Code" font-size="11">requête</text>
+
+        <line x1="405" y1="100" x2="150" y2="100" stroke="#00C896" stroke-width="1.5"/>
+        <polygon points="150,95 140,100 150,105" fill="#00C896"/>
+        <text x="280" y="120" text-anchor="middle" fill="#00C896" font-family="Fira Code" font-size="11">réponse (la page)</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">Le client envoie une requête, le serveur renvoie une réponse. Toute navigation web repose sur cet aller-retour.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Le rôle du DNS</h2>
+    <p>Un serveur n'a pas de nom, il a une <strong>adresse IP</strong> — une suite de chiffres comme <code>142.250.180.14</code>. Comme personne ne retient ça, on utilise des noms de domaine (<code>google.com</code>) à la place. Le <strong>DNS</strong> (Domain Name System) est l'annuaire qui fait la traduction entre les deux.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>Le <strong>DNS</strong> transforme un nom de domaine lisible par un humain en adresse IP compréhensible par les machines — un peu comme un annuaire téléphonique pour internet.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Anatomie d'une requête HTTP</h2>
+    <p>Quand ton navigateur contacte un serveur, il utilise le protocole <strong>HTTP</strong>. Chaque requête a une méthode, une adresse, et parfois des données. Chaque réponse a un <strong>code de statut</strong> qui indique si tout s'est bien passé.</p>
+
+    <div class="code-block"><code><span class="c-key">GET</span> /index.html <span class="c-com">HTTP/1.1</span>
+<span class="c-key">Host:</span> <span class="c-str">devyoon.sn</span>
+<span class="c-key">User-Agent:</span> <span class="c-str">Mozilla/5.0</span>
+
+<span class="c-com">← réponse du serveur</span>
+<span class="c-key">HTTP/1.1</span> <span class="c-str">200 OK</span>
+<span class="c-key">Content-Type:</span> <span class="c-str">text/html</span></code></div>
+
+    <h3>Les codes de statut à connaître</h3>
+    <ul>
+      <li><strong>200 OK</strong> — tout s'est bien passé, voici la ressource</li>
+      <li><strong>301 / 302</strong> — la ressource a été déplacée</li>
+      <li><strong>404 Not Found</strong> — la ressource demandée n'existe pas</li>
+      <li><strong>500 Internal Server Error</strong> — le serveur a rencontré un problème</li>
+    </ul>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Ce qui se passe quand tu tapes une URL</h2>
+    <p>Voici la séquence complète, de la barre d'adresse à l'affichage de la page — c'est exactement ce que ton projet de fin de phase te demandera d'expliquer.</p>
+
+    <div class="step-timeline">
+      <div class="tl-item">
+        <div class="tl-dot">1</div>
+        <div class="tl-content">
+          <h4>Tu tapes l'adresse</h4>
+          <p>Le navigateur identifie le nom de domaine dans l'URL saisie.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">2</div>
+        <div class="tl-content">
+          <h4>Résolution DNS</h4>
+          <p>Le navigateur demande au DNS l'adresse IP correspondant à ce nom de domaine.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3</div>
+        <div class="tl-content">
+          <h4>Connexion au serveur</h4>
+          <p>Le navigateur ouvre une connexion vers le serveur à cette adresse IP.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">4</div>
+        <div class="tl-content">
+          <h4>Requête HTTP</h4>
+          <p>Le navigateur envoie une requête demandant la page (méthode <code>GET</code> en général).</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">5</div>
+        <div class="tl-content">
+          <h4>Réponse du serveur</h4>
+          <p>Le serveur renvoie un code de statut et, si tout va bien, le contenu HTML de la page.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">6</div>
+        <div class="tl-content">
+          <h4>Affichage</h4>
+          <p>Le navigateur lit le HTML, télécharge les ressources liées (CSS, images, JS) et affiche la page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>Le web fonctionne sur un modèle client/serveur : une requête, une réponse.</li>
+      <li>Le DNS traduit les noms de domaine en adresses IP.</li>
+      <li>Chaque échange HTTP a une méthode, une adresse, et un code de statut.</li>
+      <li>Taper une URL déclenche une séquence précise de six étapes, du DNS à l'affichage final.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="../parcours-web.html" class="lesson-nav-btn lnb-ghost">← Retour au parcours</a>
+  <a href="phase-00-projet.html" class="lesson-nav-btn lnb-primary">Passer au projet →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

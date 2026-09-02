@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DevYoon — Deux parcours, une même méthode : cours + projet complet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="header" id="header">
+  <a href="#" class="logo">
+    <span class="logo-name">Dev<span>Yoon</span></span>
+  </a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </label>
+  <nav class="nav">
+    <a href="#principe">Le principe</a>
+    <a href="#parcours">Les parcours</a>
+    <a href="#devkef">DevKëf</a>
+    <a href="login.html" style="opacity:.85" id="nav-login-link">Se connecter</a>
+    <a href="#parcours" class="nav-cta">Choisir mon parcours</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-glow glow-a"></div>
+  <div class="hero-glow glow-b"></div>
+  <div class="hero-inner">
+
+    <div>
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Yoon · le chemin, en wolof
+      </div>
+      <h1 class="hero-title">
+        Choisis ta voie.<br>
+        Avance <span class="accent">phase</span> après <span class="accent-violet">phase</span>.
+      </h1>
+      <p class="hero-sub">
+        DevYoon, ce sont deux parcours complets — Développement Web et Intelligence Artificielle. À chaque phase, un cours structuré, puis un projet réel à livrer avant de continuer. Pas de raccourci, de vraies bases.
+      </p>
+      <div class="hero-actions">
+        <a href="#parcours" class="btn-primary">
+          Choisir mon parcours
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#principe" class="btn-ghost">Comment ça marche</a>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item"><span class="trust-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Deux parcours indépendants</div>
+        <div class="trust-item"><span class="trust-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Un projet complet par phase</div>
+        <div class="trust-item"><span class="trust-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Pensé depuis le Sénégal</div>
+      </div>
+    </div>
+
+    <!-- Visuel : le chemin qui se divise en deux -->
+    <div class="path-visual" aria-hidden="true">
+      <svg viewBox="0 0 420 460" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 60 40 Q 60 140 140 170 Q 220 200 220 230" fill="none" stroke="#2A3752" stroke-width="2"/>
+        <path d="M 220 230 Q 220 280 130 320 Q 60 350 60 420" fill="none" stroke="#FF6B35" stroke-width="2"/>
+        <path d="M 220 230 Q 220 280 300 320 Q 360 350 360 420" fill="none" stroke="#7C3AED" stroke-width="2"/>
+
+        <circle cx="60" cy="40" r="7" fill="#0A0E1A" stroke="#00C896" stroke-width="2.5"/>
+        <text x="80" y="45" class="pv-label">Phase 0 · les bases</text>
+
+        <circle cx="220" cy="230" r="8" fill="#00C896"/>
+        <text x="185" y="212" class="pv-label pv-label-c">tu choisis ta voie</text>
+
+        <circle cx="60" cy="420" r="8" fill="#FF6B35"/>
+        <text x="10" y="443" class="pv-label pv-tag-orange">Web</text>
+
+        <circle cx="360" cy="420" r="8" fill="#7C3AED"/>
+        <text x="335" y="443" class="pv-label pv-tag-violet">IA</text>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ LE PRINCIPE ══ -->
+<section class="section" id="principe">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-label">// le principe</div>
+      <h2 class="section-title">Un cours.<br><span>Un projet à livrer.</span></h2>
+      <p class="section-sub">Chaque phase suit toujours la même mécanique — assez simple pour ne jamais te perdre, assez exigeante pour vraiment progresser.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">01</div>
+        <div class="step-icon si-green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="step-title">Tu apprends</div>
+        <div class="step-desc">Un cours complet et structuré pour la phase : notions expliquées, exemples commentés, exercices courts pour ancrer avant de passer au concret.</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">02</div>
+        <div class="step-icon si-orange">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="step-title">Tu construis</div>
+        <div class="step-desc">Un projet complet, pas un exercice isolé. Éditeur intégré pour le front-end, environnement local pour Python et les agents — selon ce que le projet demande vraiment.</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">03</div>
+        <div class="step-icon si-violet">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="step-title">Tu valides et tu continues</div>
+        <div class="step-desc">Le projet livré débloque la phase suivante et un jalon de progression. Ta position sur le chemin est toujours claire.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ LES PARCOURS ══ -->
+<section class="section" id="parcours">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-label">// les parcours</div>
+      <h2 class="section-title">Deux chemins.<br><span>Choisis le tien, ou fais les deux.</span></h2>
+      <p class="section-sub">Chaque parcours avance indépendamment — ta progression sur l'un n'attend pas l'autre.</p>
+    </div>
+
+    <div class="track-grid">
+
+      <!-- WEB -->
+      <div class="track-card track-web reveal">
+        <div class="track-head">
+          <div class="track-name">Développement Web</div>
+          <div class="track-desc">Du HTML à une application complète, déployée — étape par étape, sans rien sauter.</div>
+        </div>
+        <ul class="phase-list">
+          <li><span class="ph-num">0</span><span class="ph-name">Comment marche le web</span></li>
+          <li><span class="ph-num">1</span><span class="ph-name">Structure & mise en forme</span><span class="ph-tag">HTML · CSS</span></li>
+          <li><span class="ph-num">2</span><span class="ph-name">Responsive & mise en page</span><span class="ph-tag">CSS</span></li>
+          <li><span class="ph-num">3</span><span class="ph-name">Interactivité</span><span class="ph-tag">JavaScript</span></li>
+          <li><span class="ph-num">4</span><span class="ph-name">Outils pro</span><span class="ph-tag">Git</span></li>
+          <li><span class="ph-num">5</span><span class="ph-name">Framework front</span><span class="ph-tag">React</span></li>
+          <li><span class="ph-num">6</span><span class="ph-name">Back-end & données</span><span class="ph-tag">Node.js</span></li>
+          <li><span class="ph-num">7</span><span class="ph-name">Projet final full-stack</span></li>
+        </ul>
+        <a href="parcours-web.html" class="btn-track btn-track-orange">
+          Voir le parcours Web
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <!-- IA -->
+      <div class="track-card track-ia reveal">
+        <div class="track-head">
+          <div class="track-name">Intelligence Artificielle</div>
+          <div class="track-desc">De Python à un agent autonome déployé, capable d'utiliser des outils et de la mémoire.</div>
+        </div>
+        <ul class="phase-list">
+          <li><span class="ph-num">0</span><span class="ph-name">Bases de la programmation</span><span class="ph-tag">Python</span></li>
+          <li><span class="ph-num">1</span><span class="ph-name">Manipulation de données</span><span class="ph-tag">Python</span></li>
+          <li><span class="ph-num">2</span><span class="ph-name">Comprendre les LLM</span><span class="ph-tag">Prompting</span></li>
+          <li><span class="ph-num">3</span><span class="ph-name">Function calling & outils</span><span class="ph-tag">Agents</span></li>
+          <li><span class="ph-num">4</span><span class="ph-name">Mémoire & connaissances</span><span class="ph-tag">RAG</span></li>
+          <li><span class="ph-num">5</span><span class="ph-name">Orchestration</span><span class="ph-tag">Multi-agents</span></li>
+          <li><span class="ph-num">6</span><span class="ph-name">Projet final : agent déployé</span></li>
+        </ul>
+        <a href="parcours-ia.html" class="btn-track btn-track-violet">
+          Voir le parcours IA
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ LIEN AVEC DEVKËF ══ -->
+<section class="section devkef-strip" id="devkef">
+  <div class="section-inner devkef-inner">
+    <div class="reveal">
+      <div class="section-label">// et devkëf, dans tout ça ?</div>
+      <h3 class="devkef-title">DevKëf t'a fait découvrir le code en construisant vite.<br>DevYoon t'emmène plus loin, une phase à la fois.</h3>
+      <p class="devkef-sub">Les deux se complètent : commence par un niveau DevKëf pour t'échauffer, puis rejoins un parcours DevYoon pour aller au bout d'une vraie compétence.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ CTA FINAL ══ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-badge reveal">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Gratuit pour commencer
+    </div>
+    <h2 class="cta-title reveal">Ta première phase<br><span>t'attend.</span></h2>
+    <p class="cta-sub reveal">Choisis Web ou IA, commence à la Phase 0, et avance à ton rythme — un cours, un projet, une phase à la fois.</p>
+    <div class="cta-btn-group reveal">
+      <a href="#parcours" class="btn-primary btn-large">
+        Choisir mon parcours
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#principe" class="btn-ghost btn-large">Revoir le principe</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo">
+        <span class="logo-name">Dev<span>Yoon</span></span>
+      </div>
+      <p>Deux parcours, une même méthode : un cours structuré, un projet complet, une phase à la fois. En parallèle de DevKëf.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Parcours</h4>
+      <ul>
+        <li><a href="parcours-web.html">Développement Web</a></li>
+        <li><a href="parcours-ia.html">Intelligence Artificielle</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Plateforme</h4>
+      <ul>
+        <li><a href="#principe">Le principe</a></li>
+        <li><a href="#devkef">DevKëf</a></li>
+        <li><a href="login.html">Se connecter</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>À propos</h4>
+      <ul>
+        <li><a href="#">Notre histoire</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 DevYoon. Tous droits réservés.</span>
+    <div class="footer-made">Fait avec 💙 au Sénégal <span class="flag">🇸🇳</span></div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+  });
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+<script>
+  (async () => {
+    const user = await devyoonGetUser();
+    if (user) {
+      const link = document.getElementById('nav-login-link');
+      if (link) { link.textContent = 'Mon tableau de bord'; link.href = 'dashboard.html'; }
+    }
+  })();
+</script>
+
+</body>
+</html>

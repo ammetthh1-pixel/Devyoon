@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projet Phase 00 — Le trajet d'une requête · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-00-cours.html" class="nav-cta">Revoir le cours</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Projet · Phase 00</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-projet">Projet · Phase 00</span>
+      <span class="lesson-duration">≈ 45 min</span>
+    </div>
+    <h1 class="lesson-title">Le trajet d'une requête</h1>
+    <p class="lesson-intro">Prouve que tu as compris la mécanique du web en la réexpliquant avec tes propres mots et un schéma. C'est court, mais c'est la base de tout ce qui suit.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Objectif</h2>
+    <p>Produis un <strong>schéma commenté</strong> qui retrace le trajet complet d'une requête : de la saisie de l'URL dans la barre d'adresse jusqu'à l'affichage de la page dans le navigateur.</p>
+
+    <div class="brief-box">
+      <h3>Ce que ton livrable doit contenir</h3>
+      <div class="checklist">
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>Les deux acteurs principaux (client et serveur), clairement identifiés</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>L'étape de résolution DNS, avec une phrase expliquant à quoi elle sert</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>La requête HTTP envoyée par le client (méthode + ce qu'elle demande)</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>La réponse du serveur, avec son code de statut</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>La dernière étape : ce que fait le navigateur avec la réponse reçue</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Comment t'y prendre</h2>
+    <ol>
+      <li>Choisis un site que tu utilises souvent (peu importe lequel).</li>
+      <li>Reprends les six étapes vues dans le cours et réécris-les <strong>avec tes propres mots</strong>, appliquées à ce site précis.</li>
+      <li>Dessine ou schématise le trajet — à la main, sur papier, ou avec un outil simple. La qualité du dessin compte moins que la justesse des étapes.</li>
+      <li>Ajoute une légende ou des annotations courtes à chaque étape.</li>
+    </ol>
+
+    <div class="example-callout">
+      <div class="def-label">Exemple de formulation attendue</div>
+      <p>« Quand je tape wikipedia.org, mon navigateur demande d'abord au DNS l'adresse IP de ce site. Une fois l'adresse obtenue, il envoie une requête GET au serveur de Wikipédia, qui répond avec le code 200 et le contenu HTML de la page d'accueil. »</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Critère de réussite</h2>
+    <p>Ton schéma est validé si quelqu'un qui n'a jamais suivi ce cours peut comprendre, juste en le regardant, ce qui se passe entre la saisie d'une URL et l'affichage de la page — sans confondre le rôle du DNS et celui du serveur.</p>
+  </section>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-00-cours.html" class="lesson-nav-btn lnb-ghost">← Revoir le cours</a>
+  <a href="../web/phase-01-cours.html" class="lesson-nav-btn lnb-primary">Passer à la Phase 01 →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

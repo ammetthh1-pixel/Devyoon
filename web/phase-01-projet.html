@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projet Phase 01 — Ta page personnelle · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-01-cours.html" class="nav-cta">Revoir le cours</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Projet · Phase 01</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-projet">Projet · Phase 01</span>
+      <span class="lesson-duration">≈ 3h</span>
+    </div>
+    <h1 class="lesson-title">Ta page personnelle</h1>
+    <p class="lesson-intro">Ton premier vrai livrable : une page HTML/CSS complète qui parle de toi. Pas un exercice isolé — une page que tu pourrais réellement montrer.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Objectif</h2>
+    <p>Construis une <strong>page personnelle</strong> à une seule page (<code>index.html</code> + <code>style.css</code>) qui te présente : qui tu es, ce que tu apprends, ce que tu sais déjà faire, comment te contacter.</p>
+
+    <div class="brief-box">
+      <h3>Sections attendues</h3>
+      <div class="checklist">
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>En-tête</strong> — ton nom et une courte phrase d'accroche</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>À propos</strong> — quelques phrases sur ton parcours (étudiant, autodidacte, ce qui te motive)</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>Compétences</strong> — une liste de ce que tu maîtrises ou apprends actuellement</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>Contact</strong> — un moyen de te joindre (email, réseau social)</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>Pied de page</strong> — mention de copyright ou signature</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Contraintes techniques</h2>
+    <ul>
+      <li>Utilise des balises sémantiques (<code>header</code>, <code>main</code>, <code>section</code>, <code>footer</code>) — pas uniquement des <code>div</code></li>
+      <li>Le CSS doit être dans un fichier <strong>externe</strong> (<code>style.css</code>), lié avec <code>&lt;link&gt;</code> — pas de style en ligne</li>
+      <li>Choisis une palette de couleurs cohérente (3-4 couleurs maximum) et une ou deux polices</li>
+      <li>Utilise au moins une fois chaque notion du cours : une classe, un identifiant, une propriété de boîte (padding/margin/border)</li>
+    </ul>
+
+    <div class="example-callout">
+      <div class="def-label">Astuce</div>
+      <p>Regarde comment la page d'accueil de DevYoon structure ses sections (header, hero, footer) — tu peux t'en inspirer pour l'organisation, sans copier le contenu.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Critère de réussite</h2>
+    <p>Ta page s'ouvre sans erreur dans un navigateur, toutes les sections demandées sont présentes et lisibles, et le résultat a une identité visuelle cohérente — pas juste du texte brut sans style.</p>
+  </section>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-01-cours.html" class="lesson-nav-btn lnb-ghost">← Revoir le cours</a>
+  <a href="editor-web.html?phase=01" class="lesson-nav-btn lnb-primary">Ouvrir l'éditeur →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

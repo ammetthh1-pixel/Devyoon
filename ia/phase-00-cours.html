@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 00 — Bases de la programmation · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-ia">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-00-projet.html" class="nav-cta nav-cta-violet">Voir le projet</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-ia.html">Parcours IA</a><span>/</span><span>Phase 00</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours · Phase 00</span>
+      <span class="lesson-duration">≈ 30 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Bases de la programmation</h1>
+    <p class="lesson-intro">Avant de parler d'agents et de modèles de langage, il faut savoir écrire du code qui réfléchit correctement. Cette phase pose les fondations en Python — le langage qu'on utilisera pour tout le reste du parcours IA.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Variables et types</h2>
+    <p>Une <strong>variable</strong> est un nom qui pointe vers une valeur en mémoire. Tu peux l'imaginer comme une boîte étiquetée : l'étiquette est le nom, le contenu est la valeur.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>Une variable associe un <strong>nom</strong> à une <strong>valeur</strong>. En Python, pas besoin de préciser le type à l'avance — il est déduit automatiquement de la valeur affectée.</p>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 480 150" xmlns="http://www.w3.org/2000/svg">
+        <text x="30" y="35" fill="#F0F4FF" font-family="Fira Code" font-size="14">age = 19</text>
+        <line x1="70" y1="45" x2="70" y2="70" stroke="#7C3AED" stroke-width="1.5"/>
+        <polygon points="65,68 70,78 75,68" fill="#7C3AED"/>
+        <rect x="20" y="80" width="100" height="50" rx="8" fill="#1C2333" stroke="#7C3AED"/>
+        <text x="70" y="102" text-anchor="middle" fill="#7A8BAD" font-family="Fira Code" font-size="10">age</text>
+        <text x="70" y="120" text-anchor="middle" fill="#F0F4FF" font-family="Fira Code" font-size="15" font-weight="700">19</text>
+
+        <text x="230" y="35" fill="#F0F4FF" font-family="Fira Code" font-size="14">ville = "Thiès"</text>
+        <line x1="270" y1="45" x2="270" y2="70" stroke="#7C3AED" stroke-width="1.5"/>
+        <polygon points="265,68 270,78 275,68" fill="#7C3AED"/>
+        <rect x="210" y="80" width="130" height="50" rx="8" fill="#1C2333" stroke="#7C3AED"/>
+        <text x="275" y="102" text-anchor="middle" fill="#7A8BAD" font-family="Fira Code" font-size="10">ville</text>
+        <text x="275" y="120" text-anchor="middle" fill="#F0F4FF" font-family="Fira Code" font-size="15" font-weight="700">"Thiès"</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">Le nom pointe vers une valeur stockée en mémoire — ici un entier et une chaîne de caractères.</p>
+
+    <div class="code-block"><code><span class="c-key">age</span> = 19            <span class="c-com"># int</span>
+<span class="c-key">taille</span> = 1.75       <span class="c-com"># float</span>
+<span class="c-key">ville</span> = <span class="c-str">"Thiès"</span>     <span class="c-com"># str</span>
+<span class="c-key">actif</span> = <span class="c-str">True</span>        <span class="c-com"># bool</span></code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Conditions</h2>
+    <p>Une condition permet à un programme de <strong>choisir un chemin</strong> selon une situation, avec <code>if</code>, <code>elif</code> et <code>else</code>.</p>
+
+    <div class="code-block"><code><span class="c-key">note</span> = 14
+
+<span class="c-key">if</span> note >= 16:
+    print(<span class="c-str">"Très bien"</span>)
+<span class="c-key">elif</span> note >= 10:
+    print(<span class="c-str">"Admis"</span>)
+<span class="c-key">else</span>:
+    print(<span class="c-str">"Insuffisant"</span>)</code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Boucles</h2>
+    <p>Une boucle répète une action. <code>for</code> parcourt une séquence connue, <code>while</code> répète tant qu'une condition reste vraie.</p>
+
+    <div class="code-block"><code><span class="c-key">for</span> i <span class="c-key">in</span> range(5):
+    print(i)         <span class="c-com"># 0 1 2 3 4</span>
+
+<span class="c-key">compteur</span> = 0
+<span class="c-key">while</span> compteur < 3:
+    print(<span class="c-str">"tour"</span>, compteur)
+    compteur += 1</code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Fonctions</h2>
+    <p>Une fonction regroupe un bloc de code réutilisable. Elle reçoit des <strong>paramètres</strong> en entrée et peut renvoyer un résultat avec <code>return</code>.</p>
+
+    <div class="code-block"><code><span class="c-key">def</span> moyenne(notes):
+    <span class="c-key">return</span> sum(notes) / len(notes)
+
+resultat = moyenne([12, 15, 9, 18])
+print(resultat)   <span class="c-com"># 13.5</span></code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Structures de données</h2>
+    <p>Les <strong>listes</strong> stockent des éléments ordonnés, les <strong>dictionnaires</strong> associent des clés à des valeurs — ce sont les deux structures que tu utiliseras le plus souvent.</p>
+
+    <div class="code-block"><code><span class="c-key">fruits</span> = [<span class="c-str">"mangue"</span>, <span class="c-str">"banane"</span>, <span class="c-str">"orange"</span>]
+print(fruits[0])            <span class="c-com"># "mangue"</span>
+
+<span class="c-key">eleve</span> = {<span class="c-str">"nom"</span>: <span class="c-str">"Awa"</span>, <span class="c-str">"note"</span>: 16}
+print(eleve[<span class="c-str">"nom"</span>])          <span class="c-com"># "Awa"</span></code></div>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>Une variable associe un nom à une valeur, dont le type est déduit automatiquement.</li>
+      <li>Les conditions (<code>if</code>/<code>elif</code>/<code>else</code>) font choisir un chemin au programme.</li>
+      <li>Les boucles (<code>for</code>/<code>while</code>) répètent une action.</li>
+      <li>Les fonctions regroupent du code réutilisable avec des paramètres et un retour.</li>
+      <li>Les listes et les dictionnaires sont les deux structures de données de base à maîtriser.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="../parcours-ia.html" class="lesson-nav-btn lnb-ghost">← Retour au parcours</a>
+  <a href="phase-00-projet.html" class="lesson-nav-btn lnb-primary">Passer au projet →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

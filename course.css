@@ -1,0 +1,159 @@
+/* ══════════════════════════════════════════════
+   DEVYOON — Pages de cours (lesson pages)
+   S'appuie sur les tokens définis dans style.css
+══════════════════════════════════════════════ */
+
+.lesson-hero {
+  padding: 150px clamp(16px,5vw,80px) 40px;
+  border-bottom: 1px solid var(--border);
+  background: var(--ink2);
+}
+.lesson-hero-inner { max-width: 760px; margin: 0 auto; }
+.lesson-meta-row {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px;
+}
+.lesson-kind {
+  font-family: var(--mono); font-size: .72rem; padding: 5px 13px; border-radius: 100px;
+}
+.kind-cours  { color: var(--orange); background: var(--orange-dim); border: 1px solid rgba(255,107,53,.25); }
+.kind-projet { color: var(--green); background: var(--green-dim); border: 1px solid rgba(0,200,150,.25); }
+.lesson-duration { font-family: var(--mono); font-size: .76rem; color: var(--muted); }
+
+.lesson-title {
+  font-family: var(--display); font-size: clamp(1.7rem,3.6vw,2.5rem);
+  font-weight: 700; line-height: 1.2; letter-spacing: -.4px; margin-bottom: 14px;
+}
+.lesson-intro { font-size: 1rem; color: var(--muted); line-height: 1.75; max-width: 640px; }
+
+/* ── CORPS ── */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: clamp(48px,7vw,72px) clamp(16px,5vw,80px) 40px;
+}
+.lesson-section { margin-bottom: 52px; }
+.lesson-section h2 {
+  font-family: var(--display); font-size: 1.4rem; font-weight: 700;
+  margin-bottom: 18px; letter-spacing: -.2px;
+}
+.lesson-section h3 {
+  font-family: var(--display); font-size: 1.08rem; font-weight: 600; margin: 26px 0 12px;
+}
+.lesson-section p { font-size: .96rem; color: var(--text); opacity: .88; line-height: 1.8; margin-bottom: 16px; }
+.lesson-section ul, .lesson-section ol { margin: 0 0 16px 1.3rem; }
+.lesson-section li { font-size: .95rem; color: var(--text); opacity: .88; line-height: 1.75; margin-bottom: 6px; }
+.lesson-section strong { color: var(--text); opacity: 1; font-weight: 600; }
+
+/* Boîte de définition */
+.def-box {
+  background: var(--ink2); border-left: 3px solid var(--orange);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.3rem 1.5rem; margin: 22px 0;
+}
+.def-box .def-label {
+  font-family: var(--mono); font-size: .68rem; color: var(--orange);
+  text-transform: uppercase; letter-spacing: .8px; margin-bottom: 8px;
+}
+.def-box p { margin-bottom: 0; }
+
+/* Bloc de code */
+.code-block {
+  background: #06090F; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.1rem 1.3rem; margin: 20px 0; overflow-x: auto;
+}
+.code-block code {
+  font-family: var(--mono); font-size: .84rem; color: #C9D6F5; line-height: 1.7; white-space: pre;
+}
+.code-block .c-key   { color: var(--orange); }
+.code-block .c-str   { color: var(--green); }
+.code-block .c-com   { color: var(--muted); }
+
+/* Diagramme */
+.diagram-wrap {
+  background: var(--ink2); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem; margin: 24px 0; display: flex; justify-content: center;
+}
+.diagram-wrap svg { max-width: 100%; height: auto; }
+.diagram-caption { text-align: center; font-size: .78rem; color: var(--muted); margin-top: 14px; }
+
+/* Timeline d'étapes */
+.step-timeline { display: flex; flex-direction: column; margin: 22px 0; }
+.tl-item { display: flex; gap: 18px; position: relative; padding-bottom: 26px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before {
+  content: ''; position: absolute; left: 15px; top: 34px; bottom: 0; width: 1px; background: var(--border);
+}
+.tl-item:last-child::before { display: none; }
+.tl-dot {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: var(--orange-dim); border: 1px solid rgba(255,107,53,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: .76rem; font-weight: 600; color: var(--orange);
+}
+.tl-content h4 { font-family: var(--display); font-size: .95rem; font-weight: 700; margin-bottom: 5px; }
+.tl-content p { font-size: .87rem; color: var(--muted); line-height: 1.65; margin-bottom: 0; }
+
+/* Résumé */
+.summary-box {
+  background: var(--ink3); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1.8rem 2rem; margin-top: 40px;
+}
+.summary-box .def-label { color: var(--green); }
+.summary-box ul { margin-left: 1.1rem; }
+.summary-box li { font-size: .9rem; }
+
+/* Navigation bas de leçon */
+.lesson-nav {
+  max-width: 720px; margin: 0 auto; padding: 30px clamp(16px,5vw,80px) 80px;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.lesson-nav-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--display); font-size: .88rem; font-weight: 700;
+  padding: 13px 24px; border-radius: var(--radius);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.lnb-primary { background: var(--orange); color: var(--ink); margin-left: auto; }
+.lnb-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px var(--orange-glow); }
+.lnb-ghost { color: var(--muted); border: 1px solid var(--border); }
+.lnb-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+/* ── PAGE PROJET ── */
+.brief-box {
+  background: var(--ink2); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1.8rem 2rem; margin: 24px 0;
+}
+.brief-box h3 { margin-top: 0; }
+.checklist { display: flex; flex-direction: column; gap: 12px; margin: 18px 0 0; }
+.check-row { display: flex; align-items: flex-start; gap: 12px; }
+.check-mark {
+  width: 20px; height: 20px; border-radius: 5px; border: 1px solid var(--border);
+  flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center;
+}
+.check-mark svg { color: var(--green); }
+.check-row p { font-size: .9rem; margin-bottom: 0; }
+
+.example-callout {
+  background: var(--green-dim); border: 1px solid rgba(0,200,150,.2); border-radius: var(--radius);
+  padding: 1.1rem 1.4rem; margin: 22px 0;
+}
+.example-callout .def-label { color: var(--green); }
+
+@media (max-width: 600px) {
+  .lesson-hero { padding-top: 120px; }
+  .lesson-nav { flex-direction: column-reverse; align-items: stretch; }
+  .lnb-primary { margin-left: 0; justify-content: center; }
+  .lnb-ghost { justify-content: center; }
+}
+
+/* ── VARIANTE PARCOURS IA (violet) ── */
+.track-theme-ia .kind-cours {
+  color: var(--violet); background: var(--violet-dim); border-color: rgba(124,58,237,.3);
+}
+.track-theme-ia .def-box { border-left-color: var(--violet); }
+.track-theme-ia .def-box .def-label { color: var(--violet); }
+.track-theme-ia .tl-dot {
+  background: var(--violet-dim); border-color: rgba(124,58,237,.35); color: var(--violet);
+}
+.track-theme-ia .code-block .c-key { color: var(--violet); }
+.track-theme-ia .lnb-primary { background: var(--violet); color: var(--text); }
+.track-theme-ia .lnb-primary:hover { box-shadow: 0 8px 22px var(--violet-glow); }

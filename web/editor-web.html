@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DevYoon — Éditeur Web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../assets/config.js"></script>
+<script src="../assets/auth.js"></script>
+<script src="../assets/progress.js"></script>
+<script src="phases-config.js"></script>
+
+<style>
+:root {
+  --ink: #0A0E1A; --ink2: #111827; --ink3: #1C2333;
+  --surface: #1A2236; --border: #1E2D45; --border-light: #243450;
+  --orange: #FF6B35; --orange-dim: rgba(255,107,53,.12); --orange-glow: rgba(255,107,53,.25);
+  --green: #00C896; --green-dim: rgba(0,200,150,.1);
+  --violet: #7C3AED; --red: #FF4757; --red-dim: rgba(255,71,87,.1); --yellow: #FFD60A;
+  --text: #F0F4FF; --muted: #7A8BAD; --muted2: #4A5C78;
+  --mono: 'Fira Code', monospace; --display: 'Space Grotesk', sans-serif; --body: 'Inter', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body { background: var(--ink); color: var(--text); font-family: var(--body); font-size: 14px; display: flex; flex-direction: column; }
+
+.topbar { height: 50px; background: var(--ink2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; gap: 12px; z-index: 50; }
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.logo-small { font-family: var(--display); font-size: .9rem; font-weight: 700; display: flex; align-items: center; gap: 4px; text-decoration: none; color: var(--text); }
+.logo-small span { color: var(--orange); }
+.phase-pill { font-family: var(--mono); font-size: .68rem; font-weight: 600; padding: 3px 10px; border-radius: 100px; background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(255,107,53,.2); }
+.project-name { font-size: .82rem; color: var(--muted); }
+.project-name span { color: var(--text); font-weight: 500; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.save-status { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: .68rem; color: var(--muted); }
+.save-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted2); }
+.save-dot.saved { background: var(--green); }
+.btn-run, .btn-validate { display: flex; align-items: center; gap: 6px; border: none; padding: 7px 16px; border-radius: 6px; font-family: var(--display); font-size: .78rem; font-weight: 700; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+.btn-run { background: var(--green); color: var(--ink); }
+.btn-run:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(0,200,150,.3); }
+.btn-validate { background: var(--orange); color: var(--ink); }
+.btn-validate:hover { transform: translateY(-1px); box-shadow: 0 5px 14px var(--orange-glow); }
+.btn-back { display: flex; align-items: center; gap: 5px; background: transparent; color: var(--muted); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: color .2s, border-color .2s; }
+.btn-back:hover { color: var(--text); border-color: var(--muted2); }
+
+.editor-layout { display: grid; grid-template-columns: 300px 1fr 1fr; flex: 1; overflow: hidden; }
+
+.panel-instructions { background: var(--ink2); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.instr-header { padding: 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--ink2); z-index: 10; }
+.instr-level { font-family: var(--mono); font-size: .62rem; color: var(--green); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+.instr-title { font-family: var(--display); font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.instr-body { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.instr-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+.objectives-title { font-family: var(--display); font-size: .78rem; font-weight: 600; color: var(--text); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.objectives-title::before { content: ''; width: 3px; height: 14px; background: var(--orange); border-radius: 2px; }
+.objective { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--ink3); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; transition: border-color .25s, background .25s; }
+.objective.done { background: rgba(0,200,150,.06); border-color: rgba(0,200,150,.25); }
+.objective.failed { background: var(--red-dim); border-color: rgba(255,71,87,.25); }
+.obj-status { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .65rem; margin-top: 1px; transition: all .25s; }
+.objective.done .obj-status { background: var(--green); border-color: var(--green); color: var(--ink); }
+.objective.failed .obj-status { background: var(--red); border-color: var(--red); color: #fff; }
+.obj-text { font-size: .8rem; color: var(--text); line-height: 1.5; }
+.obj-hint { font-size: .72rem; color: var(--muted); margin-top: 3px; font-style: italic; }
+.tip-box { background: rgba(124,58,237,.08); border: 1px solid rgba(124,58,237,.2); border-radius: 8px; padding: 12px; }
+.tip-label { font-family: var(--mono); font-size: .62rem; color: #A78BFA; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.tip-text { font-size: .78rem; color: var(--muted); line-height: 1.6; }
+.tip-text code { font-family: var(--mono); font-size: .75rem; background: rgba(124,58,237,.15); color: #C4B5FD; padding: 1px 5px; border-radius: 4px; }
+.result-box { border-radius: 8px; padding: 14px; display: none; flex-direction: column; gap: 8px; }
+.result-box.show { display: flex; }
+.result-box.success { background: rgba(0,200,150,.08); border: 1px solid rgba(0,200,150,.3); }
+.result-box.partial { background: rgba(255,214,10,.06); border: 1px solid rgba(255,214,10,.25); }
+.result-box.error { background: var(--red-dim); border: 1px solid rgba(255,71,87,.25); }
+.result-title { font-family: var(--display); font-size: .85rem; font-weight: 700; }
+.result-box.success .result-title { color: var(--green); }
+.result-box.partial .result-title { color: var(--yellow); }
+.result-box.error .result-title { color: var(--red); }
+.result-msg { font-size: .78rem; color: var(--muted); line-height: 1.55; }
+.progress-section { padding: 16px; border-top: 1px solid var(--border); margin-top: auto; }
+.prog-label { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); margin-bottom: 6px; font-family: var(--mono); }
+.prog-bar { height: 5px; background: var(--border); border-radius: 100px; overflow: hidden; margin-bottom: 8px; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, var(--orange), #FF9A6C); border-radius: 100px; width: 0%; transition: width 1s cubic-bezier(.34,1.56,.64,1); }
+.prog-next { font-size: .7rem; color: var(--muted2); font-family: var(--mono); }
+
+.panel-editor { display: flex; flex-direction: column; border-right: 1px solid var(--border); overflow: hidden; }
+.editor-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--ink2); flex-shrink: 0; }
+.editor-tab { padding: 10px 18px; font-size: .78rem; font-weight: 600; font-family: var(--mono); color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 7px; transition: color .18s, border-color .18s; user-select: none; }
+.editor-tab:hover { color: var(--text); }
+.editor-tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+.tab-dot { width: 7px; height: 7px; border-radius: 50%; }
+.td-html { background: #F06529; }
+.td-css { background: #264DE4; }
+.editor-area { flex: 1; overflow: hidden; position: relative; }
+.cm-pane { position: absolute; inset: 0; display: none; }
+.cm-pane.active { display: block; }
+.CodeMirror { height: 100% !important; font-family: var(--mono) !important; font-size: 13px !important; line-height: 1.7 !important; background: #0D1117 !important; }
+.CodeMirror-scroll { overflow-y: auto !important; }
+.CodeMirror-gutters { background: #0A0E1A !important; border-right: 1px solid var(--border) !important; }
+.CodeMirror-linenumber { color: var(--muted2) !important; }
+.editor-statusbar { height: 26px; background: var(--ink); border-top: 1px solid var(--border); display: flex; align-items: center; padding: 0 12px; gap: 16px; flex-shrink: 0; }
+.statusbar-item { font-family: var(--mono); font-size: .62rem; color: var(--muted2); display: flex; align-items: center; gap: 4px; }
+.statusbar-item.live { color: var(--green); }
+.live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse-live 1.5s ease-in-out infinite; }
+@keyframes pulse-live { 0%,100%{ opacity: 1; } 50%{ opacity: .3; } }
+
+.panel-preview { display: flex; flex-direction: column; overflow: hidden; }
+.preview-bar { height: 40px; background: var(--ink2); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 12px; gap: 8px; flex-shrink: 0; }
+.preview-dots { display: flex; gap: 5px; }
+.pd { width: 10px; height: 10px; border-radius: 50%; }
+.pd.r { background: #FF5F57; } .pd.y { background: #FEBC2E; } .pd.g { background: #28C840; }
+.preview-url { flex: 1; background: var(--ink3); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-family: var(--mono); font-size: .7rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.preview-size-btns { display: flex; gap: 4px; }
+.size-btn { width: 28px; height: 28px; background: transparent; border: 1px solid var(--border); border-radius: 5px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); transition: all .18s; }
+.size-btn:hover, .size-btn.active { background: var(--orange-dim); border-color: rgba(255,107,53,.3); color: var(--orange); }
+.preview-frame-wrap { flex: 1; overflow: hidden; position: relative; background: #fff; display: flex; align-items: flex-start; justify-content: center; }
+#preview-iframe { width: 100%; height: 100%; border: none; }
+.preview-frame-wrap.mobile { background: var(--ink); padding: 16px; }
+.preview-frame-wrap.mobile #preview-iframe { width: 375px; height: 100%; border-radius: 8px; box-shadow: 0 0 0 1px var(--border), 0 20px 40px rgba(0,0,0,.5); }
+.btn-mockup { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(255,107,53,.3); border-radius: 7px; font-family: var(--display); font-size: .7rem; font-weight: 600; padding: 5px 10px; cursor: pointer; white-space: nowrap; }
+.btn-mockup.active { background: var(--orange); color: var(--ink); }
+.mockup-layer { position: absolute; inset: 0; background: var(--ink2); display: none; flex-direction: column; z-index: 5; }
+.mockup-layer.show { display: flex; }
+.mockup-note { font-size: .7rem; color: var(--muted); padding: 8px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px; }
+.mockup-note b { color: var(--orange); font-family: var(--display); }
+.mockup-layer iframe { flex: 1; width: 100%; border: 0; background: #fff; }
+
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink3); border: 1px solid var(--border-light); border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 360px; box-shadow: 0 16px 40px rgba(0,0,0,.4); z-index: 1000; transform: translateY(80px); opacity: 0; transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s ease; pointer-events: none; }
+.toast.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.toast-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+.toast.success .toast-icon { background: var(--green-dim); color: var(--green); }
+.toast.error .toast-icon { background: var(--red-dim); color: var(--red); }
+.toast.info .toast-icon { background: var(--orange-dim); color: var(--orange); }
+.toast-title { font-family: var(--display); font-size: .85rem; font-weight: 700; }
+.toast.success .toast-title { color: var(--green); }
+.toast.error .toast-title { color: var(--red); }
+.toast.info .toast-title { color: var(--orange); }
+.toast-msg { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+
+.confetti-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 2000; }
+.confetti-piece { position: absolute; width: 8px; height: 8px; border-radius: 2px; animation: confetti-fall linear forwards; }
+@keyframes confetti-fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+.mobile-tabs { display: none; }
+.editor-error { padding: 60px 30px; text-align: center; color: var(--muted); font-family: var(--display); }
+@media (max-width: 1100px) { .editor-layout { grid-template-columns: 260px 1fr 1fr; } }
+@media (max-width: 900px) {
+  html, body { overflow: hidden; }
+  .editor-layout { display: block; position: relative; overflow: hidden; padding-bottom: 58px; height: calc(100dvh - 50px); }
+  .editor-layout > .panel-instructions, .editor-layout > .panel-editor, .editor-layout > .panel-preview { display: none; height: 100%; max-height: none; border-right: 0; overflow-y: auto; }
+  .editor-layout > .panel-instructions.m-active { display: flex; }
+  .editor-layout > .panel-editor.m-active, .editor-layout > .panel-preview.m-active { display: flex; flex-direction: column; }
+  .mobile-tabs { display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; bottom: 0; left: 0; right: 0; height: 58px; background: var(--ink2); border-top: 1px solid var(--border); z-index: 900; padding-bottom: env(safe-area-inset-bottom); }
+  .m-tab { background: none; border: 0; color: var(--muted); font-family: var(--display); font-size: .68rem; font-weight: 600; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
+  .m-tab.active { color: var(--orange); }
+  .preview-frame-wrap { position: relative; }
+  .toast { left: 12px; right: 12px; bottom: 70px; min-width: 0; max-width: none; }
+}
+@media (max-width: 600px) {
+  .topbar { padding: 0 10px; gap: 8px; }
+  .project-name, .save-status { display: none; }
+  .topbar-right { gap: 6px; }
+  .btn-run, .btn-validate { padding: 6px 10px; font-size: .72rem; }
+  .preview-url { display: none; }
+  .phase-pill { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <a href="../index.html" class="logo-small">Dev<span>Yoon</span></a>
+    <span class="phase-pill" id="phase-pill">Phase --</span>
+    <span class="project-name">/ <span id="project-name-text">Chargement…</span></span>
+  </div>
+  <div class="topbar-right">
+    <div class="save-status" id="save-status"><span class="save-dot" id="save-dot"></span><span id="save-label">Non connecté</span></div>
+    <button class="btn-run" onclick="runCode()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Exécuter
+    </button>
+    <button class="btn-validate" onclick="validateCode()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      Valider
+    </button>
+    <a href="#" class="btn-back" id="back-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Brief
+    </a>
+  </div>
+</div>
+
+<div class="editor-layout" id="editor-layout">
+
+  <aside class="panel-instructions">
+    <div class="instr-header">
+      <div class="instr-level">// Parcours Web</div>
+      <div class="instr-title" id="instr-title">Chargement…</div>
+    </div>
+    <div class="instr-body">
+      <p class="instr-desc">Remplis les zones indiquées dans le code de départ. Utilise l'onglet <code>style.css</code> pour la mise en forme. Clique sur <strong>Exécuter</strong> pour voir le résultat, et sur <strong>Valider</strong> quand tu penses avoir terminé.</p>
+      <div>
+        <div class="objectives-title">Objectifs à valider</div>
+        <div id="objectives-list"></div>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">💡 Astuce</div>
+        <div class="tip-text">Regarde la <strong>maquette</strong> (bouton en haut de l'aperçu) pour voir un exemple de rendu — inspire-toi de la structure, pas du contenu : c'est ta propre page.</div>
+      </div>
+      <div class="result-box" id="result-box">
+        <div class="result-title" id="result-title"></div>
+        <div class="result-msg" id="result-msg"></div>
+      </div>
+    </div>
+    <div class="progress-section">
+      <div class="prog-label"><span>Progression</span><span id="prog-pct">0 / 0</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+      <div class="prog-next" id="prog-next"></div>
+    </div>
+  </aside>
+
+  <div class="panel-editor">
+    <div class="editor-tabs">
+      <div class="editor-tab active" onclick="switchTab('html')" id="tab-html"><span class="tab-dot td-html"></span>index.html</div>
+      <div class="editor-tab" onclick="switchTab('css')" id="tab-css"><span class="tab-dot td-css"></span>style.css</div>
+    </div>
+    <div class="editor-area">
+      <div class="cm-pane active" id="pane-html"><textarea id="editor-html"></textarea></div>
+      <div class="cm-pane" id="pane-css"><textarea id="editor-css"></textarea></div>
+    </div>
+    <div class="editor-statusbar">
+      <div class="statusbar-item live"><span class="live-dot"></span>Prévisualisation en direct</div>
+      <div class="statusbar-item" id="status-cursor">Ln 1, Col 1</div>
+      <div class="statusbar-item" id="status-chars">0 caractères</div>
+    </div>
+  </div>
+
+  <div class="panel-preview">
+    <div class="preview-bar">
+      <div class="preview-dots"><span class="pd r"></span><span class="pd y"></span><span class="pd g"></span></div>
+      <div class="preview-url">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+        <span id="preview-url-text">devyoon://preview</span>
+      </div>
+      <div class="preview-size-btns">
+        <button class="size-btn active" onclick="setPreviewSize('desktop')" title="Desktop">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </button>
+        <button class="size-btn" onclick="setPreviewSize('mobile')" title="Mobile">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="2.5"/></svg>
+        </button>
+      </div>
+      <button class="btn-mockup" id="btn-mockup" onclick="toggleMockup()">Maquette</button>
+    </div>
+    <div class="preview-frame-wrap" id="preview-wrap">
+      <iframe id="preview-iframe" title="Prévisualisation du code"></iframe>
+      <div class="mockup-layer" id="mockup-layer">
+        <div class="mockup-note"><b>Maquette cible</b> — exemple de structure à reproduire (le contenu doit être le tien)</div>
+        <iframe id="mockup-iframe" title="Maquette de référence"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <nav class="mobile-tabs">
+    <button class="m-tab" id="mt-instructions" onclick="setMobilePanel('instructions')">Objectifs</button>
+    <button class="m-tab active" id="mt-editor" onclick="setMobilePanel('editor')">Code</button>
+    <button class="m-tab" id="mt-preview" onclick="setMobilePanel('preview')">Aperçu</button>
+  </nav>
+
+</div>
+
+<div class="toast" id="toast">
+  <div class="toast-icon" id="toast-icon"></div>
+  <div><div class="toast-title" id="toast-title"></div><div class="toast-msg" id="toast-msg"></div></div>
+</div>
+<div class="confetti-overlay" id="confetti"></div>
+
+<script>
+const PHASE_NUM = new URLSearchParams(location.search).get('phase') || '01';
+const PROJECT = (typeof WEB_PHASES !== 'undefined') ? WEB_PHASES[PHASE_NUM] : null;
+
+let editorHTML, editorCSS, mockupLoaded = false;
+
+window.addEventListener('DOMContentLoaded', async () => {
+  if (!PROJECT) {
+    document.getElementById('editor-layout').innerHTML = `<div class="editor-error">Aucun projet configuré pour la phase "${PHASE_NUM}". Vérifie web/phases-config.js.</div>`;
+    return;
+  }
+
+  document.getElementById('phase-pill').textContent = 'Phase ' + PHASE_NUM;
+  document.getElementById('project-name-text').textContent = PROJECT.title;
+  document.getElementById('instr-title').textContent = PROJECT.title;
+  document.getElementById('preview-url-text').textContent = 'devyoon://preview/web-' + PHASE_NUM;
+  document.getElementById('back-link').href = PROJECT.briefFile;
+  document.title = `Phase ${PHASE_NUM} — ${PROJECT.title} · DevYoon`;
+
+  editorHTML = CodeMirror.fromTextArea(document.getElementById('editor-html'), {
+    mode: 'htmlmixed', theme: 'dracula', lineNumbers: true, autoCloseTags: true, autoCloseBrackets: true, matchBrackets: true, tabSize: 2, value: PROJECT.starterHTML
+  });
+  editorCSS = CodeMirror.fromTextArea(document.getElementById('editor-css'), {
+    mode: 'css', theme: 'dracula', lineNumbers: true, autoCloseBrackets: true, matchBrackets: true, tabSize: 2, value: PROJECT.starterCSS
+  });
+  editorHTML.setValue(PROJECT.starterHTML);
+  editorCSS.setValue(PROJECT.starterCSS);
+  editorHTML.on('cursorActivity', updateStatusBar);
+  editorHTML.on('change', updateStatusBar);
+
+  renderObjectives();
+  updateProgLabel();
+  setMobilePanel('editor');
+  setTimeout(runCode, 200);
+
+  const user = await devyoonGetUser();
+  setSaveStatus(user ? 'ready' : 'anon');
+});
+
+function setSaveStatus(state) {
+  const dot = document.getElementById('save-dot');
+  const label = document.getElementById('save-label');
+  dot.className = 'save-dot' + (state === 'saved' ? ' saved' : '');
+  label.textContent = state === 'saved' ? 'Progression sauvegardée' : state === 'ready' ? 'Connecté' : 'Non connecté';
+}
+
+function renderObjectives() {
+  const list = document.getElementById('objectives-list');
+  list.innerHTML = PROJECT.objectives.map((o, i) => `
+    <div class="objective" id="obj-${i+1}">
+      <div class="obj-status" id="obj-${i+1}-status">${i+1}</div>
+      <div><div class="obj-text">${o.label}</div><div class="obj-hint">${o.hint}</div></div>
+    </div>`).join('');
+}
+function updateProgLabel() {
+  document.getElementById('prog-pct').textContent = '0 / ' + PROJECT.objectives.length;
+  document.getElementById('prog-next').textContent = PROJECT.objectives.length + ' objectifs à valider';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.cm-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('pane-' + tab).classList.add('active');
+  if (tab === 'html') editorHTML.refresh(); else editorCSS.refresh();
+}
+
+function runCode() {
+  const html = editorHTML.getValue();
+  const css = editorCSS.getValue();
+  const injectCSS = `<style>${css}</style>`;
+  let finalHTML = html.includes('<link') ? html.replace(/<link[^>]*href=["']style\.css["'][^>]*>/, injectCSS) : html.replace('</head>', injectCSS + '</head>');
+  const iframe = document.getElementById('preview-iframe');
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open(); doc.write(finalHTML); doc.close();
+}
+
+async function validateCode() {
+  const html = editorHTML.getValue();
+  const css = editorCSS.getValue();
+  let passed = 0;
+  const results = PROJECT.objectives.map(o => { try { return !!o.test(html, css); } catch(e) { return false; } });
+
+  results.forEach((ok, i) => {
+    const num = i + 1;
+    const objEl = document.getElementById('obj-' + num);
+    const statusEl = document.getElementById('obj-' + num + '-status');
+    objEl.classList.toggle('done', ok);
+    objEl.classList.toggle('failed', !ok);
+    statusEl.textContent = ok ? '✓' : '✗';
+    if (ok) passed++;
+  });
+
+  const total = PROJECT.objectives.length;
+  document.getElementById('prog-fill').style.width = (passed/total*100) + '%';
+  document.getElementById('prog-pct').textContent = passed + ' / ' + total;
+  document.getElementById('prog-next').textContent = passed === total ? '✓ Projet complété !' : (total - passed) + ' objectif' + (total-passed>1?'s':'') + ' restant' + (total-passed>1?'s':'');
+  if (passed === total) document.getElementById('prog-next').style.color = 'var(--green)';
+
+  const box = document.getElementById('result-box'), title = document.getElementById('result-title'), msg = document.getElementById('result-msg');
+  box.classList.add('show'); box.classList.remove('success','partial','error');
+  const missing = results.map((ok,i) => ok ? null : PROJECT.objectives[i].hint.replace(/<[^>]+>/g,'')).filter(Boolean);
+
+  if (passed === total) {
+    box.classList.add('success'); title.textContent = '🎉 Projet terminé !'; msg.textContent = 'Tous les objectifs sont validés.';
+    launchConfetti();
+
+    const user = await devyoonGetUser();
+    if (user) {
+      await devyoonMarkComplete('web', PHASE_NUM, { passed, total });
+      setSaveStatus('saved');
+      showToast('success', '🎉 Phase validée !', 'Ta progression a été sauvegardée sur ton compte.');
+    } else {
+      showToast('info', '🎉 Phase validée !', 'Connecte-toi pour sauvegarder ta progression sur ton compte.');
+    }
+  } else if (passed >= Math.ceil(total/2)) {
+    box.classList.add('partial'); title.textContent = `${passed}/${total} objectifs atteints`; msg.textContent = 'Il te reste : ' + missing[0];
+    showToast('info', `${passed}/${total} objectifs`, 'Continue — tu y es presque !');
+  } else {
+    box.classList.add('error'); title.textContent = `${passed}/${total} objectifs atteints`; msg.textContent = 'À faire : ' + missing[0];
+    showToast('error', `${passed}/${total} objectifs`, 'Relis le brief et réessaie.');
+  }
+}
+
+function setPreviewSize(size) {
+  const wrap = document.getElementById('preview-wrap');
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  wrap.classList.toggle('mobile', size === 'mobile');
+}
+
+function toggleMockup() {
+  const layer = document.getElementById('mockup-layer');
+  const btn = document.getElementById('btn-mockup');
+  const show = !layer.classList.contains('show');
+  if (show && !mockupLoaded) {
+    const f = document.getElementById('mockup-iframe');
+    const d = f.contentDocument || f.contentWindow.document;
+    d.open(); d.write(PROJECT.mockupHTML(PROJECT.starterCSS)); d.close();
+    mockupLoaded = true;
+  }
+  layer.classList.toggle('show', show);
+  btn.classList.toggle('active', show);
+  btn.textContent = show ? 'Mon code' : 'Maquette';
+}
+
+function updateStatusBar() {
+  const cursor = editorHTML.getCursor();
+  document.getElementById('status-cursor').textContent = `Ln ${cursor.line+1}, Col ${cursor.ch+1}`;
+  document.getElementById('status-chars').textContent = editorHTML.getValue().length + ' caractères';
+}
+
+function showToast(type, title, msg) {
+  const toast = document.getElementById('toast');
+  const icons = { success: '✓', error: '✗', info: '★' };
+  toast.className = 'toast ' + type;
+  document.getElementById('toast-icon').textContent = icons[type];
+  document.getElementById('toast-title').textContent = title;
+  document.getElementById('toast-msg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4500);
+}
+
+function launchConfetti() {
+  const container = document.getElementById('confetti');
+  const colors = ['#FF6B35','#00C896','#7C3AED','#FFD60A'];
+  for (let i = 0; i < 60; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random()*100 + 'vw';
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    piece.style.width = (Math.random()*8+5)+'px';
+    piece.style.height = (Math.random()*8+5)+'px';
+    piece.style.animationDuration = (Math.random()*2+1.5)+'s';
+    piece.style.animationDelay = (Math.random()*0.8)+'s';
+    container.appendChild(piece);
+    piece.addEventListener('animationend', () => piece.remove());
+  }
+}
+
+function setMobilePanel(name) {
+  const panels = { instructions: document.querySelector('.panel-instructions'), editor: document.querySelector('.panel-editor'), preview: document.querySelector('.panel-preview') };
+  Object.entries(panels).forEach(([key, el]) => {
+    el.classList.toggle('m-active', key === name);
+    document.getElementById('mt-' + key).classList.toggle('active', key === name);
+  });
+  if (name === 'editor' && editorHTML) setTimeout(() => { editorHTML.refresh(); editorCSS.refresh(); }, 50);
+  if (name === 'preview') runCode();
+}
+</script>
+
+</body>
+</html>

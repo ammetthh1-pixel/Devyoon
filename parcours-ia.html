@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Parcours Intelligence Artificielle — DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+</head>
+<body class="track-theme-ia">
+
+<header class="header" id="header">
+  <a href="index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="index.html#principe">Le principe</a>
+    <a href="index.html#parcours">Les parcours</a>
+    <a href="parcours-web.html">Parcours Web</a>
+    <a href="login.html" style="opacity:.85" id="nav-login-link">Se connecter</a>
+    <a href="ia/phase-00-cours.html" class="nav-cta nav-cta-violet">Commencer la Phase 0</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══ EN-TÊTE DE PARCOURS ══ -->
+<section class="subpage-hero">
+  <div class="hero-glow glow-b"></div>
+  <div class="subpage-inner">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span>/</span><span>Parcours IA</span></div>
+    <div class="track-pill track-pill-ia">Parcours · Intelligence Artificielle</div>
+    <h1 class="subpage-title">De Python à un <span class="accent-violet">agent</span><br>autonome déployé.</h1>
+    <p class="subpage-sub">7 phases, de la logique de base à l'orchestration d'agents. Chaque phase se termine par un projet réel, pas un exercice isolé.</p>
+    <div class="subpage-meta">
+      <div class="meta-item"><span class="meta-num">7</span><span class="meta-label">phases</span></div>
+      <div class="meta-item"><span class="meta-num">7</span><span class="meta-label">projets complets</span></div>
+      <div class="meta-item"><span class="meta-num">1</span><span class="meta-label">agent final déployé</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LES PHASES ══ -->
+<section class="section" id="phases">
+  <div class="section-inner">
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">00</span>
+          <div>
+            <div class="phase-title">Bases de la programmation</div>
+            <div class="phase-tags"><span class="ph-tag">Python</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-open">Disponible</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Variables, conditions, boucles, fonctions, structures de données — les fondations avec Python.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Une série de petits scripts qui résolvent des problèmes de logique concrets.</p>
+        </div>
+      </div>
+      <a href="ia/phase-00-cours.html" class="phase-cta cta-ia">Commencer cette phase</a>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">01</span>
+          <div>
+            <div class="phase-title">Manipulation de données</div>
+            <div class="phase-tags"><span class="ph-tag">Python</span><span class="ph-tag">JSON / API</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Lire et écrire des fichiers, consommer une API, manipuler du JSON.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Un script d'automatisation qui récupère et traite des données réelles.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 00</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">02</span>
+          <div>
+            <div class="phase-title">Comprendre les LLM</div>
+            <div class="phase-tags"><span class="ph-tag">Prompting</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Comment fonctionne un modèle de langage, appeler une API de modèle, écrire un bon prompt.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Un mini-outil concret piloté entièrement par prompt.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 01</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">03</span>
+          <div>
+            <div class="phase-title">Function calling & outils</div>
+            <div class="phase-tags"><span class="ph-tag">Agents</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Donner des outils à un modèle : function calling, frameworks d'agents, appels structurés.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Un agent capable d'utiliser au moins deux outils réels pour répondre à une tâche.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 02</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">04</span>
+          <div>
+            <div class="phase-title">Mémoire & connaissances</div>
+            <div class="phase-tags"><span class="ph-tag">RAG</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Bases vectorielles, recherche sémantique, RAG — donner une mémoire et des connaissances à un agent.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Un agent qui répond en s'appuyant sur une base de documents que tu lui fournis.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 03</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">05</span>
+          <div>
+            <div class="phase-title">Orchestration</div>
+            <div class="phase-tags"><span class="ph-tag">Multi-agents</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Enchaîner plusieurs étapes, coordonner plusieurs agents, gérer les échecs et les retries.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Un agent autonome qui exécute une tâche en plusieurs étapes sans intervention.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 04</span>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-card-head">
+        <div class="phase-id">
+          <span class="phase-num">06</span>
+          <div>
+            <div class="phase-title">Projet final : agent déployé</div>
+            <div class="phase-tags"><span class="ph-tag">Déploiement</span></div>
+          </div>
+        </div>
+        <span class="phase-badge badge-soon">Bientôt</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-block">
+          <div class="phase-block-label">Cours</div>
+          <p>Assembler tout ce qui précède et déployer un agent utilisable par d'autres.</p>
+        </div>
+        <div class="phase-block">
+          <div class="phase-block-label">Projet</div>
+          <p>Un agent IA complet, déployé, avec outils, mémoire et une vraie utilité.</p>
+        </div>
+      </div>
+      <span class="phase-cta cta-locked">Se débloque après la Phase 05</span>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo"><span class="logo-name">Dev<span>Yoon</span></span></div>
+      <p>Deux parcours, une même méthode : un cours structuré, un projet complet, une phase à la fois.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Parcours</h4>
+      <ul><li><a href="parcours-web.html">Développement Web</a></li><li><a href="parcours-ia.html">Intelligence Artificielle</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Plateforme</h4>
+      <ul><li><a href="index.html#principe">Le principe</a></li><li><a href="index.html#devkef">DevKëf</a></li><li><a href="login.html">Se connecter</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>À propos</h4>
+      <ul><li><a href="#">Notre histoire</a></li><li><a href="#">Contact</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 DevYoon. Tous droits réservés.</span>
+    <div class="footer-made">Fait avec 💙 au Sénégal <span class="flag">🇸🇳</span></div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  (async () => {
+    const user = await devyoonGetUser();
+    if (user) {
+      const link = document.getElementById('nav-login-link');
+      if (link) { link.textContent = 'Mon tableau de bord'; link.href = 'dashboard.html'; }
+    }
+  })();
+</script>
+
+</body>
+</html>
