@@ -17,7 +17,7 @@
 
 window.DEVYOON_CONFIG = {
   SUPABASE_URL: "https://zurgamfwxphjymbkefan.supabase.co",
-  SUPABASE_ANON_KEY: "ta-clé-anon-identique-à-devkef",
+  SUPABASE_ANON_KEY: "sb_publishable_GDGMwZFndtdYf7u5Gfu-mg_Rjj8U-D1",
 
   // Nombre total de phases prévues par parcours (sert au calcul de
   // progression et au badge "parcours complet" — à ajuster si le
