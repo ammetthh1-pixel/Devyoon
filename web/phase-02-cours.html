@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 02 — Responsive & mise en page avancée · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-02-projet.html" class="nav-cta">Voir le projet</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 02</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours · Phase 02</span>
+      <span class="lesson-duration">≈ 40 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Responsive & mise en page avancée</h1>
+    <p class="lesson-intro">Ta page personnelle marchait bien sur ton écran — mais sur un téléphone ? Cette phase te donne les deux outils qui construisent 90% des mises en page modernes : Flexbox et Grid, plus la technique qui rend tout ça adaptatif : les media queries.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Pourquoi le responsive</h2>
+    <p>La majorité du trafic web passe par mobile. Une page qui n'est pensée que pour un écran large casse dès qu'elle est consultée sur un téléphone : texte trop petit, éléments qui débordent, boutons impossibles à toucher. Le <strong>responsive design</strong> consiste à construire une mise en page qui s'adapte à la taille de l'écran, plutôt que d'en imposer une seule.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>Une mise en page <strong>responsive</strong> réorganise automatiquement son contenu selon la largeur de l'écran — sans qu'il soit nécessaire de créer une page différente pour chaque appareil.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Flexbox : aligner sur un axe</h2>
+    <p>Flexbox distribue des éléments le long d'un <strong>axe principal</strong> (par défaut horizontal). C'est l'outil idéal pour aligner une barre de navigation, centrer un bloc, ou distribuer des cartes sur une ligne.</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 460 160" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="20" width="440" height="120" rx="10" fill="#1C2333" stroke="#1E2D45"/>
+        <rect x="30" y="50" width="110" height="60" rx="6" fill="#FF6B35" opacity=".2" stroke="#FF6B35"/>
+        <rect x="175" y="50" width="110" height="60" rx="6" fill="#FF6B35" opacity=".2" stroke="#FF6B35"/>
+        <rect x="320" y="50" width="110" height="60" rx="6" fill="#FF6B35" opacity=".2" stroke="#FF6B35"/>
+        <line x1="20" y1="80" x2="440" y2="80" stroke="#7A8BAD" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="230" y="145" text-anchor="middle" fill="#7A8BAD" font-family="Fira Code" font-size="11">axe principal (justify-content)</text>
+      </svg>
+    </div>
+
+    <div class="code-block"><code>.cartes {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between; <span class="c-com">/* répartition sur l'axe principal */</span>
+  align-items: stretch;           <span class="c-com">/* alignement sur l'axe secondaire */</span>
+  flex-wrap: wrap;                <span class="c-com">/* passe à la ligne si ça ne rentre plus */</span>
+}</code></div>
+
+    <h3>Les propriétés à connaître</h3>
+    <ul>
+      <li><code>display: flex</code> — active Flexbox sur le conteneur</li>
+      <li><code>justify-content</code> — répartition le long de l'axe principal (<code>flex-start</code>, <code>center</code>, <code>space-between</code>...)</li>
+      <li><code>align-items</code> — alignement sur l'axe perpendiculaire</li>
+      <li><code>gap</code> — espace entre les éléments, sans marges bricolées</li>
+      <li><code>flex-wrap: wrap</code> — indispensable pour que ça reste responsive</li>
+    </ul>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Grid : organiser en deux dimensions</h2>
+    <p>Là où Flexbox aligne sur un axe, <strong>Grid</strong> découpe l'espace en lignes <em>et</em> colonnes à la fois. C'est l'outil naturel pour une grille de cartes, une mise en page de type magazine, ou une structure page complète (en-tête / contenu / barre latérale / pied de page).</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 460 160" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="140" height="65" rx="6" fill="#7C3AED" opacity=".2" stroke="#7C3AED"/>
+        <rect x="160" y="10" width="140" height="65" rx="6" fill="#7C3AED" opacity=".2" stroke="#7C3AED"/>
+        <rect x="310" y="10" width="140" height="65" rx="6" fill="#7C3AED" opacity=".2" stroke="#7C3AED"/>
+        <rect x="10" y="85" width="140" height="65" rx="6" fill="#7C3AED" opacity=".2" stroke="#7C3AED"/>
+        <rect x="160" y="85" width="140" height="65" rx="6" fill="#7C3AED" opacity=".2" stroke="#7C3AED"/>
+        <rect x="310" y="85" width="140" height="65" rx="6" fill="#7C3AED" opacity=".2" stroke="#7C3AED"/>
+      </svg>
+    </div>
+    <p class="diagram-caption">Une grille 3 colonnes × 2 lignes — la structure exacte d'une section "nos services" à trois cartes.</p>
+
+    <div class="code-block"><code>.cartes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); <span class="c-com">/* 3 colonnes égales */</span>
+  gap: 20px;
+}</code></div>
+
+    <p>L'unité <code>fr</code> (fraction) répartit l'espace disponible proportionnellement — <code>repeat(3, 1fr)</code> crée trois colonnes de largeur égale, sans calcul de pourcentage à la main.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Media queries : adapter selon la largeur</h2>
+    <p>Une <strong>media query</strong> applique des règles CSS uniquement si une condition sur l'écran est vraie — le plus souvent, une largeur maximale ou minimale.</p>
+
+    <div class="code-block"><code><span class="c-com">/* Par défaut : mise en page pensée pour le mobile */</span>
+.cartes {
+  display: flex;
+  flex-direction: column;
+}
+
+<span class="c-com">/* À partir de 768px de large : bascule en ligne */</span>
+@media (min-width: 768px) {
+  .cartes {
+    flex-direction: row;
+  }
+}</code></div>
+
+    <div class="def-box">
+      <div class="def-label">Approche recommandée : mobile-first</div>
+      <p>On écrit d'abord le style pour <strong>petit écran</strong>, puis on ajoute des media queries avec <code>min-width</code> pour enrichir la mise en page à mesure que l'écran s'agrandit — plutôt que l'inverse.</p>
+    </div>
+
+    <h3>Points de rupture courants</h3>
+    <ul>
+      <li><strong>480px</strong> — téléphones</li>
+      <li><strong>768px</strong> — tablettes</li>
+      <li><strong>1024px</strong> — petits ordinateurs</li>
+    </ul>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>Flexbox aligne des éléments sur un axe — idéal pour une barre de nav ou une ligne de cartes.</li>
+      <li>Grid organise en lignes et colonnes — idéal pour une grille ou une structure de page.</li>
+      <li>Les media queries appliquent des styles selon la largeur de l'écran.</li>
+      <li>L'approche mobile-first construit d'abord pour petit écran, puis enrichit vers le grand écran.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="../parcours-web.html" class="lesson-nav-btn lnb-ghost">← Retour au parcours</a>
+  <a href="phase-02-projet.html" class="lesson-nav-btn lnb-primary">Passer au projet →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>
