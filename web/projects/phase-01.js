@@ -1,19 +1,15 @@
 /* ══════════════════════════════════════════════
-   DEVYOON — Configuration des projets Web
-   Un seul éditeur (editor-web.html) pour toutes les
-   phases : chaque entrée ci-dessous est un projet.
-   Pour ajouter une nouvelle phase, il suffit d'ajouter
-   une entrée ici — aucun autre fichier à toucher.
+   DEVYOON — Projet Web · Phase 01
+   Fichier isolé : ne contient QUE la config de cette
+   phase. Chargé uniquement quand ?phase=01.
 ══════════════════════════════════════════════ */
 
-const WEB_PHASES = {
+window.PROJECT_CONFIG = {
+  title: "Ta page personnelle",
+  briefFile: "phase-01-projet.html",
+  coursFile: "phase-01-cours.html",
 
-  "01": {
-    title: "Ta page personnelle",
-    briefFile: "phase-01-projet.html",
-    coursFile: "phase-01-cours.html",
-
-    starterHTML: `<!DOCTYPE html>
+  starterHTML: `<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8"/>
@@ -58,7 +54,7 @@ const WEB_PHASES = {
 </body>
 </html>`,
 
-    starterCSS: `/* ── Ma page personnelle ── */
+  starterCSS: `/* ── Ma page personnelle ── */
 
 body {
   font-family: 'Inter', sans-serif;
@@ -80,22 +76,22 @@ footer { margin-top: 40px; font-size: .85rem; opacity: .6; }
 /* OBJECTIF 6 : ajoute au moins une classe CSS ici, ex. .carte { ... } */
 `,
 
-    objectives: [
-      { label: 'En-tête avec ton nom', hint: 'Un <code>&lt;h1&gt;</code> dans un <code>&lt;header&gt;</code>',
-        test: html => /<header[\s\S]*?<h1[^>]*>([\s\S]*?)<\/h1>[\s\S]*?<\/header>/i.test(html) && /<h1[^>]*>([\s\S]*?)<\/h1>/i.exec(html)[1].trim().length > 1 },
-      { label: 'Section "À propos" rédigée', hint: "Un <code>&lt;p&gt;</code> d'au moins quelques phrases",
-        test: html => { const m = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i); return !!(m && m[1].replace(/<[^>]+>/g,'').trim().length > 30); } },
-      { label: 'Liste de compétences (3 min.)', hint: 'Une <code>&lt;ul&gt;</code> avec au moins 3 <code>&lt;li&gt;</code>',
-        test: html => { const li = html.match(/<li/gi); return html.toLowerCase().includes('<ul') && li && li.length >= 3; } },
-      { label: 'Lien de contact fonctionnel', hint: 'Un <code>&lt;a href="mailto:..."&gt;</code> ou un lien vers un réseau',
-        test: html => /<a[^>]+href=["'](mailto:|https?:\/\/)[^"']+["']/i.test(html) },
-      { label: 'Pied de page présent', hint: 'Une balise <code>&lt;footer&gt;</code> non vide',
-        test: html => { const m = html.match(/<footer[^>]*>([\s\S]*?)<\/footer>/i); return !!(m && m[1].replace(/<[^>]+>/g,'').trim().length > 0); } },
-      { label: 'Mise en forme personnalisée', hint: 'Ajoute au moins une règle CSS avec une classe (<code>.ma-classe { ... }</code>)',
-        test: (html, css) => /\.[a-zA-Z][\w-]*\s*\{[^}]*\}/.test(css) }
-    ],
+  objectives: [
+    { label: 'En-tête avec ton nom', hint: 'Un <code>&lt;h1&gt;</code> dans un <code>&lt;header&gt;</code>',
+      test: html => /<header[\s\S]*?<h1[^>]*>([\s\S]*?)<\/h1>[\s\S]*?<\/header>/i.test(html) && /<h1[^>]*>([\s\S]*?)<\/h1>/i.exec(html)[1].trim().length > 1 },
+    { label: 'Section "À propos" rédigée', hint: "Un <code>&lt;p&gt;</code> d'au moins quelques phrases",
+      test: html => { const m = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i); return !!(m && m[1].replace(/<[^>]+>/g,'').trim().length > 30); } },
+    { label: 'Liste de compétences (3 min.)', hint: 'Une <code>&lt;ul&gt;</code> avec au moins 3 <code>&lt;li&gt;</code>',
+      test: html => { const li = html.match(/<li/gi); return html.toLowerCase().includes('<ul') && li && li.length >= 3; } },
+    { label: 'Lien de contact fonctionnel', hint: 'Un <code>&lt;a href="mailto:..."&gt;</code> ou un lien vers un réseau',
+      test: html => /<a[^>]+href=["'](mailto:|https?:\/\/)[^"']+["']/i.test(html) },
+    { label: 'Pied de page présent', hint: 'Une balise <code>&lt;footer&gt;</code> non vide',
+      test: html => { const m = html.match(/<footer[^>]*>([\s\S]*?)<\/footer>/i); return !!(m && m[1].replace(/<[^>]+>/g,'').trim().length > 0); } },
+    { label: 'Mise en forme personnalisée', hint: 'Ajoute au moins une règle CSS avec une classe (<code>.ma-classe { ... }</code>)',
+      test: (html, css) => /\.[a-zA-Z][\w-]*\s*\{[^}]*\}/.test(css) }
+  ],
 
-    mockupHTML: css => `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"/>
+  mockupHTML: css => `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/><style>${css}</style></head><body>
 <header><h1>Aminata Diop</h1><p>Étudiante en informatique, en apprentissage du développement web.</p></header>
 <main>
@@ -105,7 +101,4 @@ footer { margin-top: 40px; font-size: .85rem; opacity: .6; }
 </main>
 <footer>© 2026 Aminata Diop</footer>
 </body></html>`
-  }
-
-  // Prochaine entrée à ajouter ici : "02": { ... } pour la Phase 02, etc.
 };

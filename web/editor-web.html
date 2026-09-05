@@ -20,7 +20,6 @@
 <script src="../assets/config.js"></script>
 <script src="../assets/auth.js"></script>
 <script src="../assets/progress.js"></script>
-<script src="phases-config.js"></script>
 
 <style>
 :root {
@@ -50,6 +49,7 @@ body { background: var(--ink); color: var(--text); font-family: var(--body); fon
 .btn-run, .btn-validate { display: flex; align-items: center; gap: 6px; border: none; padding: 7px 16px; border-radius: 6px; font-family: var(--display); font-size: .78rem; font-weight: 700; cursor: pointer; transition: transform .2s, box-shadow .2s; }
 .btn-run { background: var(--green); color: var(--ink); }
 .btn-run:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(0,200,150,.3); }
+.btn-run:disabled, .btn-validate:disabled { opacity: .5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 .btn-validate { background: var(--orange); color: var(--ink); }
 .btn-validate:hover { transform: translateY(-1px); box-shadow: 0 5px 14px var(--orange-glow); }
 .btn-back { display: flex; align-items: center; gap: 5px; background: transparent; color: var(--muted); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: color .2s, border-color .2s; }
@@ -186,11 +186,11 @@ body { background: var(--ink); color: var(--text); font-family: var(--body); fon
   </div>
   <div class="topbar-right">
     <div class="save-status" id="save-status"><span class="save-dot" id="save-dot"></span><span id="save-label">Non connecté</span></div>
-    <button class="btn-run" onclick="runCode()">
+    <button class="btn-run" onclick="runCode()" disabled id="run-btn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       Exécuter
     </button>
-    <button class="btn-validate" onclick="validateCode()">
+    <button class="btn-validate" onclick="validateCode()" disabled id="validate-btn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
       Valider
     </button>
@@ -288,16 +288,48 @@ body { background: var(--ink); color: var(--text); font-family: var(--body); fon
 
 <script>
 const PHASE_NUM = new URLSearchParams(location.search).get('phase') || '01';
-const PROJECT = (typeof WEB_PHASES !== 'undefined') ? WEB_PHASES[PHASE_NUM] : null;
+let PROJECT = null;
+
+/* Champs obligatoires pour qu'un projet Web soit exploitable par l'éditeur.
+   Si un futur fichier de phase en oublie un, l'erreur sera visible tout de
+   suite plutôt que de faire planter l'éditeur silencieusement. */
+const WEB_SCHEMA = ['title', 'briefFile', 'coursFile', 'starterHTML', 'starterCSS', 'objectives'];
+
+function loadProjectScript(path) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = path;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error(`Fichier introuvable : ${path}`));
+    document.head.appendChild(s);
+  });
+}
+
+function showEditorError(message) {
+  document.getElementById('editor-layout').innerHTML = `<div class="editor-error">${message}</div>`;
+}
 
 let editorHTML, editorCSS, mockupLoaded = false;
 
 window.addEventListener('DOMContentLoaded', async () => {
-  if (!PROJECT) {
-    document.getElementById('editor-layout').innerHTML = `<div class="editor-error">Aucun projet configuré pour la phase "${PHASE_NUM}". Vérifie web/phases-config.js.</div>`;
+  document.getElementById('phase-pill').textContent = 'Phase ' + PHASE_NUM;
+  document.getElementById('project-name-text').textContent = 'Chargement du projet…';
+  document.getElementById('instr-title').textContent = 'Chargement du projet…';
+
+  try {
+    // Un seul fichier chargé : celui de la phase demandée, pas tout le catalogue.
+    await loadProjectScript(`projects/phase-${PHASE_NUM}.js`);
+  } catch (e) {
+    showEditorError(`Aucun projet trouvé pour la phase "${PHASE_NUM}". Vérifie que web/projects/phase-${PHASE_NUM}.js existe.`);
     return;
   }
 
+  PROJECT = window.PROJECT_CONFIG;
+  const missing = WEB_SCHEMA.filter(f => PROJECT === null || PROJECT === undefined || PROJECT[f] === undefined);
+  if (!PROJECT || missing.length) {
+    showEditorError(`Le fichier de la phase "${PHASE_NUM}" est incomplet — champ(s) manquant(s) : <code>${missing.join(', ')}</code>.`);
+    return;
+  }
   document.getElementById('phase-pill').textContent = 'Phase ' + PHASE_NUM;
   document.getElementById('project-name-text').textContent = PROJECT.title;
   document.getElementById('instr-title').textContent = PROJECT.title;
@@ -319,6 +351,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   renderObjectives();
   updateProgLabel();
   setMobilePanel('editor');
+  document.getElementById('run-btn').disabled = false;
+  document.getElementById('validate-btn').disabled = false;
   setTimeout(runCode, 200);
 
   const user = await devyoonGetUser();

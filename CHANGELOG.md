@@ -137,8 +137,10 @@ Le site complet est livré sous forme d'un paquet unique, `devyoon.zip`, mis à 
 | `ia/phase-00-projet.html` | ✅ Terminé | Brief du projet — quatre scripts de logique |
 | `web/phase-01-cours.html` | ✅ Terminé | Cours complet — structure & mise en forme (HTML/CSS) |
 | `web/phase-01-projet.html` | ✅ Terminé | Brief du projet — page personnelle complète |
-| `web/editor-web.html` + `phases-config.js` | ✅ Terminé | Éditeur générique unique pour tous les projets Web (piloté par `?phase=`) |
-| `ia/editor-ia.html` + `phases-config.js` | ✅ Terminé | Éditeur générique unique pour tous les projets IA (Pyodide, piloté par `?phase=`) |
+| `web/editor-web.html` | ✅ Terminé | Éditeur générique Web (piloté par `?phase=`, charge dynamiquement `web/projects/phase-XX.js`) |
+| `web/projects/phase-01.js` | ✅ Terminé | Config isolée de la Phase 01 Web (un fichier par projet) |
+| `ia/editor-ia.html` | ✅ Terminé | Éditeur générique IA (Pyodide, piloté par `?phase=`, charge dynamiquement `ia/projects/phase-XX.js`) |
+| `ia/projects/phase-00.js` | ✅ Terminé | Config isolée de la Phase 00 IA (un fichier par projet) |
 | `assets/config.js` | 🔧 À compléter par M | Identifiants Supabase (même projet que DevKëf) |
 | `assets/auth.js` | ✅ Terminé | Inscription / connexion / session (email + mot de passe) |
 | `assets/progress.js` | ✅ Terminé | Sauvegarde de la progression + calcul des badges |
@@ -147,8 +149,8 @@ Le site complet est livré sous forme d'un paquet unique, `devyoon.zip`, mis à 
 | `style.css` | ✅ Terminé | Design system principal (pages landing) |
 | `course.css` | ✅ Terminé | Design system des pages de cours/projet (variantes orange Web / violet IA) |
 | Table Supabase `devyoon_progress` | 🔧 À créer par M | Voir schéma en commentaire dans `progress.js` |
-| Phases 02 à 07 (Web) | ⏳ À venir | Cours + projet + entrée dans `phases-config.js` |
-| Phases 01 à 06 (IA) | ⏳ À venir | Cours + projet + entrée dans `phases-config.js` |
+| Phases 02 à 07 (Web) | ⏳ À venir | Cours + projet + `web/projects/phase-XX.js` |
+| Phases 01 à 06 (IA) | ⏳ À venir | Cours + projet + `ia/projects/phase-XX.js` |
 | `login.html` | ⏳ À venir (V2) | Connexion / inscription |
 | Dashboard de progression | ⏳ À venir (V2) | Suivi par parcours, badges |
 | Éditeur intégré + console | ⏳ À venir (V3) | Pour les projets front-end |
@@ -196,3 +198,19 @@ Le site complet est livré sous forme d'un paquet unique, `devyoon.zip`, mis à 
 - Les éditeurs sauvegardent automatiquement la progression sur Supabase quand un projet est validé à 100% *si* l'utilisateur est connecté ; sinon, un message invite à se connecter pour sauvegarder
 - Navigation : le lien "Se connecter" de l'accueil et des pages parcours se transforme en "Mon tableau de bord" quand une session est active
 - **Reste à faire côté M (Supabase)** : coller l'URL + la clé anon du projet dans `assets/config.js` ; créer la table `devyoon_progress` (schéma en commentaire dans `progress.js`) avec RLS (`user_id = auth.uid()`) ; ajouter l'URL DevYoon dans Authentication → URL Configuration → Redirect URLs
+
+### 2026-09-02 (suite) — Mise en ligne
+
+- **DevYoon déployé en ligne par M** (Cloudflare Pages). Configuration Supabase terminée, testée avec succès : connexion réussie avec le compte DevKëf existant (comptes bien partagés entre les deux sites, comme prévu)
+- Pause de développement — reprise à définir
+
+### 2026-09-05 — Refonte : un fichier par projet, chargement à la demande
+
+- M a soumis un document de référence externe sur l'architecture d'éditeur universel (CodeMirror 6, `validate()` unique, registre central). Analysé point par point : CodeMirror 6 rejeté (aucun gain pour notre séparation, coût de migration inutile), `alert()` déjà réglé, `validate()` unique déjà dépassé par notre approche à objectifs/scripts multiples plus fine. Registre central jugé inutile : le numéro de phase dans l'URL fait déjà office de convention de nommage
+- **Vrai problème identifié** : `web/phases-config.js` et `ia/phases-config.js` regroupaient toutes les phases dans un seul fichier — exactement le défaut reproché à DevKëf (fichiers trop longs, bug difficile à isoler)
+- **Refonte appliquée** :
+  - Un fichier par projet, pas par parcours : `web/projects/phase-01.js`, `ia/projects/phase-00.js` (et un fichier de plus par future phase). Chaque fichier ne contient que sa propre config, rien d'autre
+  - `editor-web.html` / `editor-ia.html` chargent dynamiquement (`<script>` injecté) uniquement le fichier de la phase demandée via `?phase=`, pas l'ensemble du catalogue — avec état de chargement visible (boutons Exécuter/Valider désactivés tant que le fichier n'est pas prêt) et message d'erreur clair si le fichier de phase n'existe pas
+  - Schéma stable imposé : `WEB_SCHEMA` (`title, briefFile, coursFile, starterHTML, starterCSS, objectives`) et `IA_SCHEMA` (`title, briefFile, coursFile, scripts`) — un champ manquant dans une future phase est signalé explicitement au lieu de faire planter l'éditeur silencieusement
+  - `phases-config.js` (les deux anciens fichiers agrégés) supprimés
+  - `briefFile` / `coursFile` restent des liens vers les pages HTML existantes, comme avant — aucun contenu de brief déplacé dans le JS

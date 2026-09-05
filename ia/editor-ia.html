@@ -18,7 +18,6 @@
 <script src="../assets/config.js"></script>
 <script src="../assets/auth.js"></script>
 <script src="../assets/progress.js"></script>
-<script src="phases-config.js"></script>
 
 <style>
 :root {
@@ -169,11 +168,11 @@ body { background: var(--ink); color: var(--text); font-family: var(--body); fon
       <div class="pyo-status"><span class="pyo-dot" id="pyo-dot"></span><span id="pyo-label">Python non chargé</span></div>
       <div class="save-status"><span class="save-dot" id="save-dot"></span><span id="save-label">Non connecté</span></div>
     </div>
-    <button class="btn-run" onclick="runScript()">
+    <button class="btn-run" onclick="runScript()" disabled id="run-btn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       Exécuter
     </button>
-    <button class="btn-validate" onclick="validateScript()">
+    <button class="btn-validate" onclick="validateScript()" disabled id="validate-btn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
       Valider
     </button>
@@ -243,7 +242,24 @@ body { background: var(--ink); color: var(--text); font-family: var(--body); fon
 
 <script>
 const PHASE_NUM = new URLSearchParams(location.search).get('phase') || '00';
-const PROJECT = (typeof IA_PHASES !== 'undefined') ? IA_PHASES[PHASE_NUM] : null;
+let PROJECT = null;
+
+/* Champs obligatoires pour qu'un projet IA soit exploitable par l'éditeur. */
+const IA_SCHEMA = ['title', 'briefFile', 'coursFile', 'scripts'];
+
+function loadProjectScript(path) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = path;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error(`Fichier introuvable : ${path}`));
+    document.head.appendChild(s);
+  });
+}
+
+function showEditorError(message) {
+  document.getElementById('editor-layout').innerHTML = `<div class="editor-error">${message}</div>`;
+}
 
 let editors = {};
 let currentScript = 0;
@@ -252,12 +268,25 @@ let pyodideLoading = false;
 const validated = new Set();
 
 window.addEventListener('DOMContentLoaded', async () => {
-  if (!PROJECT) {
-    document.getElementById('editor-layout').innerHTML = `<div class="editor-error">Aucun projet configuré pour la phase "${PHASE_NUM}". Vérifie ia/phases-config.js.</div>`;
+  document.getElementById('phase-pill').textContent = 'Phase ' + PHASE_NUM + ' · IA';
+  document.getElementById('project-name-text').textContent = 'Chargement du projet…';
+  document.getElementById('instr-title').textContent = 'Chargement du projet…';
+
+  try {
+    // Un seul fichier chargé : celui de la phase demandée, pas tout le catalogue.
+    await loadProjectScript(`projects/phase-${PHASE_NUM}.js`);
+  } catch (e) {
+    showEditorError(`Aucun projet trouvé pour la phase "${PHASE_NUM}". Vérifie que ia/projects/phase-${PHASE_NUM}.js existe.`);
     return;
   }
 
-  document.getElementById('phase-pill').textContent = 'Phase ' + PHASE_NUM + ' · IA';
+  PROJECT = window.PROJECT_CONFIG;
+  const missing = IA_SCHEMA.filter(f => !PROJECT || PROJECT[f] === undefined);
+  if (!PROJECT || missing.length) {
+    showEditorError(`Le fichier de la phase "${PHASE_NUM}" est incomplet — champ(s) manquant(s) : <code>${missing.join(', ')}</code>.`);
+    return;
+  }
+
   document.getElementById('project-name-text').textContent = PROJECT.title;
   document.getElementById('instr-title').textContent = PROJECT.title;
   document.getElementById('back-link').href = PROJECT.briefFile;
@@ -290,6 +319,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   renderObjectives();
   updateProgLabel();
   setMobilePanel('editor');
+  document.getElementById('run-btn').disabled = false;
+  document.getElementById('validate-btn').disabled = false;
 
   const user = await devyoonGetUser();
   setSaveStatus(user ? 'ready' : 'anon');
