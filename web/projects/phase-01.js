@@ -82,7 +82,10 @@ footer { margin-top: 40px; font-size: .85rem; opacity: .6; }
     { label: 'Section "À propos" rédigée', hint: "Un <code>&lt;p&gt;</code> d'au moins quelques phrases",
       test: html => { const m = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i); return !!(m && m[1].replace(/<[^>]+>/g,'').trim().length > 30); } },
     { label: 'Liste de compétences (3 min.)', hint: 'Une <code>&lt;ul&gt;</code> avec au moins 3 <code>&lt;li&gt;</code>',
-      test: html => { const li = html.match(/<li/gi); return html.toLowerCase().includes('<ul') && li && li.length >= 3; } },
+      test: html => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.querySelectorAll('ul li').length >= 3;
+      } },
     { label: 'Lien de contact fonctionnel', hint: 'Un <code>&lt;a href="mailto:..."&gt;</code> ou un lien vers un réseau',
       test: html => /<a[^>]+href=["'](mailto:|https?:\/\/)[^"']+["']/i.test(html) },
     { label: 'Pied de page présent', hint: 'Une balise <code>&lt;footer&gt;</code> non vide',
