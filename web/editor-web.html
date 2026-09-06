@@ -316,6 +316,17 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('project-name-text').textContent = 'Chargement du projet…';
   document.getElementById('instr-title').textContent = 'Chargement du projet…';
 
+  const phaseIndex = Number(PHASE_NUM);
+  if (phaseIndex > 0) {
+    const user = await devyoonGetUser();
+    const progress = user ? await devyoonGetProgress() : { web: [] };
+    const previousPhase = `web-${String(phaseIndex - 1).padStart(2, '0')}`;
+    if (!user || !progress.web.some(row => row.phase_id === previousPhase)) {
+      showEditorError(`Cette phase est verrouillée. Termine d'abord la Phase ${String(phaseIndex - 1).padStart(2, '0')}.`);
+      return;
+    }
+  }
+
   try {
     // Un seul fichier chargé : celui de la phase demandée, pas tout le catalogue.
     await loadProjectScript(`projects/phase-${PHASE_NUM}.js`);
@@ -333,6 +344,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('phase-pill').textContent = 'Phase ' + PHASE_NUM;
   document.getElementById('project-name-text').textContent = PROJECT.title;
   document.getElementById('instr-title').textContent = PROJECT.title;
+  if (PROJECT.type === 'quiz') {
+    document.querySelector('.instr-desc').innerHTML = 'Réponds aux questions dans l\'aperçu, puis clique sur <strong>Valider</strong>. Tu dois obtenir toutes les bonnes réponses pour terminer la phase.';
+    document.querySelector('.tip-text').textContent = 'Relis le cours si une réponse te manque, puis sélectionne une nouvelle réponse dans l\'aperçu avant de valider à nouveau.';
+    document.getElementById('btn-mockup').style.display = 'none';
+  }
   document.getElementById('preview-url-text').textContent = 'devyoon://preview/web-' + PHASE_NUM;
   document.getElementById('back-link').href = PROJECT.briefFile;
   document.title = `Phase ${PHASE_NUM} — ${PROJECT.title} · DevYoon`;
@@ -401,7 +417,10 @@ async function validateCode() {
   const html = editorHTML.getValue();
   const css = editorCSS.getValue();
   let passed = 0;
-  const results = PROJECT.objectives.map(o => { try { return !!o.test(html, css); } catch(e) { return false; } });
+  const previewDoc = document.getElementById('preview-iframe').contentDocument;
+  const results = PROJECT.type === 'quiz'
+    ? PROJECT.validateQuiz(previewDoc)
+    : PROJECT.objectives.map(o => { try { return !!o.test(html, css); } catch(e) { return false; } });
 
   results.forEach((ok, i) => {
     const num = i + 1;

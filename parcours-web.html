@@ -11,6 +11,8 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="assets/config.js"></script>
 <script src="assets/auth.js"></script>
+<script src="assets/progress.js"></script>
+<script src="assets/progress.js"></script>
 </head>
 <body class="track-theme-web">
 
@@ -275,12 +277,48 @@
   window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
   const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  async function updateWebPhases() {
+    const user = await devyoonGetUser();
+    const progress = user ? await devyoonGetProgress() : { web: [] };
+    const completed = new Set(progress.web.map(row => row.phase_id));
+
+    document.querySelectorAll('.phase-card').forEach(card => {
+      const numberElement = card.querySelector('.phase-num');
+      const badge = card.querySelector('.phase-badge');
+      const cta = card.querySelector('.phase-cta');
+      if (!numberElement || !badge || !cta) return;
+
+      const phaseNumber = numberElement.textContent.trim();
+      const phaseIndex = Number(phaseNumber);
+      const phaseId = `web-${phaseNumber}`;
+      const previousPhase = `web-${String(phaseIndex - 1).padStart(2, '0')}`;
+      const unlocked = phaseIndex === 0 || completed.has(previousPhase);
+      const done = completed.has(phaseId);
+
+      if (unlocked) {
+        badge.textContent = done ? 'Terminée' : 'Disponible';
+        badge.className = 'phase-badge ' + (done ? 'badge-open' : 'badge-open');
+        const link = document.createElement('a');
+        link.href = `web/phase-${phaseNumber}-cours.html`;
+        link.className = 'phase-cta cta-web';
+        link.textContent = done ? 'Revoir cette phase' : 'Commencer cette phase';
+        cta.replaceWith(link);
+      } else {
+        badge.textContent = 'Verrouillée';
+        badge.className = 'phase-badge badge-soon';
+        cta.textContent = `Se débloque après la Phase ${String(phaseIndex - 1).padStart(2, '0')}`;
+      }
+    });
+  }
+
   (async () => {
     const user = await devyoonGetUser();
     if (user) {
       const link = document.getElementById('nav-login-link');
       if (link) { link.textContent = 'Mon tableau de bord'; link.href = 'dashboard.html'; }
     }
+    await updateWebPhases();
   })();
 </script>
 
