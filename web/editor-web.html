@@ -416,11 +416,16 @@ function runCode() {
 async function validateCode() {
   const html = editorHTML.getValue();
   const css = editorCSS.getValue();
+  // On retire les commentaires avant de tester : un exemple de code laissé
+  // en commentaire dans le starter (ex. "/* .cartes { display:flex; } */")
+  // ne doit jamais compter comme du HTML/CSS réellement écrit par l'élève.
+  const htmlNoComments = html.replace(/<!--[\s\S]*?-->/g, '');
+  const cssNoComments = css.replace(/\/\*[\s\S]*?\*\//g, '');
   let passed = 0;
   const previewDoc = document.getElementById('preview-iframe').contentDocument;
   const results = PROJECT.type === 'quiz'
     ? PROJECT.validateQuiz(previewDoc)
-    : PROJECT.objectives.map(o => { try { return !!o.test(html, css); } catch(e) { return false; } });
+    : PROJECT.objectives.map(o => { try { return !!o.test(htmlNoComments, cssNoComments); } catch(e) { return false; } });
 
   results.forEach((ok, i) => {
     const num = i + 1;

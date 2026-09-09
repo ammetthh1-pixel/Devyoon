@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 01 — Manipulation de données · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-ia">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-01-projet.html" class="nav-cta nav-cta-violet">Voir le projet</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-ia.html">Parcours IA</a><span>/</span><span>Phase 01</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours · Phase 01</span>
+      <span class="lesson-duration">≈ 35 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Manipulation de données</h1>
+    <p class="lesson-intro">Tes scripts de la Phase 00 travaillaient sur des données que tu avais écrites toi-même dans le code. En vrai, les données viennent le plus souvent de l'extérieur : un fichier, une API. Cette phase t'apprend à aller les chercher, les lire et les transformer.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Le format JSON</h2>
+    <p>JSON (JavaScript Object Notation) est le format que la quasi-totalité des API utilisent pour échanger des données. Il ressemble beaucoup aux dictionnaires et listes Python — ce n'est pas un hasard, la correspondance est presque directe.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p><strong>JSON</strong> représente des données structurées (objets, listes, textes, nombres) sous forme de texte, lisible aussi bien par une machine que par un humain.</p>
+    </div>
+
+    <div class="code-block"><code><span class="c-com"># En JSON (texte)</span>
+{
+  "nom": "Awa",
+  "age": 22,
+  "langages": ["Python", "JavaScript"]
+}
+
+<span class="c-com"># Le même contenu, une fois chargé en Python, devient :</span>
+{<span class="c-str">'nom'</span>: <span class="c-str">'Awa'</span>, <span class="c-str">'age'</span>: 22, <span class="c-str">'langages'</span>: [<span class="c-str">'Python'</span>, <span class="c-str">'JavaScript'</span>]}</code></div>
+
+    <p>En Python, le module <code>json</code> fait la conversion dans les deux sens : <code>json.loads()</code> transforme du texte JSON en dictionnaire/liste Python, <code>json.dumps()</code> fait l'inverse.</p>
+
+    <div class="code-block"><code><span class="c-key">import</span> json
+
+texte = <span class="c-str">'{"nom": "Awa", "age": 22}'</span>
+donnees = json.loads(texte)    <span class="c-com"># -> dictionnaire Python</span>
+print(donnees[<span class="c-str">"nom"</span>])       <span class="c-com"># Awa</span></code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Lire et écrire des fichiers</h2>
+    <p>Avant de parler d'API, la donnée la plus simple à manipuler reste le fichier. Python ouvre un fichier avec <code>open()</code>, et le mot-clé <code>with</code> garantit qu'il se referme correctement même en cas d'erreur.</p>
+
+    <div class="code-block"><code><span class="c-com"># Écrire dans un fichier</span>
+<span class="c-key">with</span> open(<span class="c-str">"notes.txt"</span>, <span class="c-str">"w"</span>) <span class="c-key">as</span> f:
+    f.write(<span class="c-str">"Awa: 16\n"</span>)
+    f.write(<span class="c-str">"Moussa: 12\n"</span>)
+
+<span class="c-com"># Lire un fichier ligne par ligne</span>
+<span class="k">with</span> open(<span class="c-str">"notes.txt"</span>) <span class="c-key">as</span> f:
+    <span class="c-key">for</span> ligne <span class="c-key">in</span> f:
+        print(ligne.strip())</code></div>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>Le bloc <code>with open(...) as f:</code> ouvre un fichier pour la durée du bloc indenté, puis le referme automatiquement à la sortie — même si une erreur survient à l'intérieur.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Consommer une API</h2>
+    <p>Une API renvoie généralement des données en JSON en réponse à une requête HTTP — exactement le mécanisme vu en Phase 00 du parcours Web, mais appelé depuis du code plutôt que depuis un navigateur. En Python, la bibliothèque <code>requests</code> simplifie cet appel.</p>
+
+    <div class="code-block"><code><span class="c-key">import</span> requests
+
+reponse = requests.get(<span class="c-str">"https://api.exemple.com/villes"</span>)
+donnees = reponse.json()   <span class="c-com"># conversion automatique en dict/list Python</span>
+
+<span class="c-key">for</span> ville <span class="c-key">in</span> donnees:
+    print(ville[<span class="c-str">"nom"</span>])</code></div>
+
+    <h3>Le cycle complet</h3>
+    <ul>
+      <li>Le programme envoie une requête <code>GET</code> à une adresse (une API)</li>
+      <li>Le serveur répond avec des données en JSON</li>
+      <li><code>.json()</code> transforme cette réponse en structures Python utilisables</li>
+      <li>Le programme parcourt et traite ces données comme n'importe quelle liste ou dictionnaire</li>
+    </ul>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Transformer des données</h2>
+    <p>Une fois les données chargées (fichier ou API), le travail habituel consiste à les filtrer, les compter, ou les reformater — les mêmes outils que la Phase 00 (boucles, conditions, dictionnaires) s'appliquent directement.</p>
+
+    <div class="code-block"><code>eleves = [
+    {<span class="c-str">"nom"</span>: <span class="c-str">"Awa"</span>, <span class="c-str">"note"</span>: 16},
+    {<span class="c-str">"nom"</span>: <span class="c-str">"Moussa"</span>, <span class="c-str">"note"</span>: 9},
+    {<span class="c-str">"nom"</span>: <span class="c-str">"Fatou"</span>, <span class="c-str">"note"</span>: 14}
+]
+
+<span class="c-com"># Filtrer : garder seulement les admis</span>
+admis = [e <span class="c-key">for</span> e <span class="c-key">in</span> eleves <span class="c-key">if</span> e[<span class="c-str">"note"</span>] >= 10]
+print(admis)</code></div>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>JSON est le format d'échange de données le plus courant sur le web — proche des dict/list Python.</li>
+      <li><code>json.loads()</code> / <code>json.dumps()</code> convertissent entre texte JSON et objets Python.</li>
+      <li><code>with open(...) as f:</code> lit ou écrit un fichier en le refermant automatiquement.</li>
+      <li><code>requests.get(url).json()</code> récupère et convertit la réponse d'une API en une seule ligne.</li>
+      <li>Une fois chargées, les données se manipulent avec les outils déjà connus : boucles, conditions, filtres.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="../parcours-ia.html" class="lesson-nav-btn lnb-ghost">← Retour au parcours</a>
+  <a href="phase-01-projet.html" class="lesson-nav-btn lnb-primary">Passer au projet →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

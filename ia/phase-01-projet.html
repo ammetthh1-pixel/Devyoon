@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projet Phase 01 — Trois scripts de données · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-ia">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-01-cours.html" class="nav-cta nav-cta-violet">Revoir le cours</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-ia.html">Parcours IA</a><span>/</span><span>Projet · Phase 01</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-projet">Projet · Phase 01</span>
+      <span class="lesson-duration">≈ 1h15</span>
+    </div>
+    <h1 class="lesson-title">Trois scripts de données</h1>
+    <p class="lesson-intro">Trois mini-automatisations, chacune sur une donnée déjà fournie dans le script — pensées comme si elles venaient d'un fichier ou d'une API, pour se concentrer sur le traitement plutôt que sur la connexion réseau.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Objectif</h2>
+    <p>Écris trois scripts Python séparés, chacun autonome, qui manipulent des données déjà présentes dans le fichier de départ (JSON, fichier virtuel, liste de dictionnaires) — exactement le type de traitement qu'on ferait après avoir reçu une réponse d'API ou lu un fichier.</p>
+
+    <div class="example-callout">
+      <div class="def-label">Pourquoi les données sont déjà dans le code</div>
+      <p>Pyodide s'exécute entièrement dans ton navigateur, sans accès réseau libre — impossible d'appeler une vraie API depuis cet éditeur. Les données sont donc fournies telles quelles, comme si elles venaient d'y être récupérées : le travail à faire (parser du JSON, lire un fichier, filtrer une liste) est identique à ce que tu ferais avec une vraie API.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Les trois scripts</h2>
+
+    <div class="brief-box">
+      <h3>1. Villes et population</h3>
+      <p>Une chaîne JSON contient une liste de villes avec leur population. Charge-la avec <code>json.loads()</code>, puis calcule la population totale et trouve la ville la plus peuplée.</p>
+    </div>
+
+    <div class="brief-box">
+      <h3>2. Fichier de notes</h3>
+      <p>Écris un petit dictionnaire de notes dans un fichier avec <code>open(..., "w")</code>, puis relis ce fichier pour calculer et afficher la moyenne.</p>
+    </div>
+
+    <div class="brief-box">
+      <h3>3. Filtrage d'employés</h3>
+      <p>À partir d'une liste de dictionnaires représentant des employés, filtre ceux qui sont actifs et affiche leur nombre ainsi que leurs noms.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Consignes</h2>
+    <div class="checklist">
+      <div class="check-row">
+        <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <p>Utilise le module <code>json</code> pour le script 1</p>
+      </div>
+      <div class="check-row">
+        <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <p>Utilise <code>with open(...) as f:</code> pour l'écriture et la lecture dans le script 2</p>
+      </div>
+      <div class="check-row">
+        <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <p>Affiche un résultat clair et lisible pour chaque script</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Critère de réussite</h2>
+    <p>Chacun des trois scripts s'exécute sans erreur et affiche le bon résultat pour les données fournies.</p>
+  </section>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-01-cours.html" class="lesson-nav-btn lnb-ghost">← Revoir le cours</a>
+  <a href="editor-ia.html?phase=01" class="lesson-nav-btn lnb-primary">Ouvrir l'éditeur →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

@@ -87,7 +87,7 @@ label { display: block; margin: 10px 0; cursor: pointer; }
     { label: 'Question 2 — DNS', hint: 'Expliquer la traduction domaine → adresse IP' },
     { label: 'Question 3 — HTTP', hint: 'Reconnaître la méthode GET' },
     { label: 'Question 4 — statut', hint: 'Reconnaître le code 200 OK' },
-    { label: 'Question 5 — requête', hint: 'Identifier l\'émetteur de la requête' },
+    { label: 'Question 5 — requête', hint: "Identifier l'émetteur de la requête" },
     { label: 'Question 6 — affichage', hint: 'Décrire le rôle final du navigateur' }
   ],
 

@@ -272,6 +272,17 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('project-name-text').textContent = 'Chargement du projet…';
   document.getElementById('instr-title').textContent = 'Chargement du projet…';
 
+  const phaseIndex = Number(PHASE_NUM);
+  if (phaseIndex > 0) {
+    const user = await devyoonGetUser();
+    const progress = user ? await devyoonGetProgress() : { ia: [] };
+    const previousPhase = `ia-${String(phaseIndex - 1).padStart(2, '0')}`;
+    if (!user || !progress.ia.some(row => row.phase_id === previousPhase)) {
+      showEditorError(`Cette phase est verrouillée. Termine d'abord la Phase ${String(phaseIndex - 1).padStart(2, '0')}.`);
+      return;
+    }
+  }
+
   try {
     // Un seul fichier chargé : celui de la phase demandée, pas tout le catalogue.
     await loadProjectScript(`projects/phase-${PHASE_NUM}.js`);
