@@ -12,7 +12,6 @@
 <script src="assets/config.js"></script>
 <script src="assets/auth.js"></script>
 <script src="assets/progress.js"></script>
-<script src="assets/progress.js"></script>
 </head>
 <body class="track-theme-web">
 
@@ -132,19 +131,19 @@
             <div class="phase-tags"><span class="ph-tag">JavaScript</span></div>
           </div>
         </div>
-        <span class="phase-badge badge-soon">Bientôt</span>
+        <span class="phase-badge badge-open">Disponible</span>
       </div>
       <div class="phase-body">
         <div class="phase-block">
           <div class="phase-block-label">Cours</div>
-          <p>Variables, fonctions, DOM, événements — donner vie à une page statique.</p>
+          <p>Variables, fonctions, DOM, événements — donner vie à une page statique. En trois parties.</p>
         </div>
         <div class="phase-block">
           <div class="phase-block-label">Projet</div>
-          <p>Une application interactive complète (liste de tâches ou quiz) sans framework.</p>
+          <p>Une liste de tâches interactive complète, sans framework.</p>
         </div>
       </div>
-      <span class="phase-cta cta-locked">Se débloque après la Phase 02</span>
+      <a href="web/phase-03-cours-1.html" class="phase-cta cta-web">Commencer cette phase</a>
     </div>
 
     <div class="phase-card reveal">
@@ -156,19 +155,19 @@
             <div class="phase-tags"><span class="ph-tag">Git</span><span class="ph-tag">Terminal</span></div>
           </div>
         </div>
-        <span class="phase-badge badge-soon">Bientôt</span>
+        <span class="phase-badge badge-open">Disponible</span>
       </div>
       <div class="phase-body">
         <div class="phase-block">
           <div class="phase-block-label">Cours</div>
-          <p>Versionner son code, travailler en ligne de commande, publier un projet.</p>
+          <p>Versionner son code, travailler en ligne de commande, publier un projet. En deux parties.</p>
         </div>
         <div class="phase-block">
           <div class="phase-block-label">Projet</div>
-          <p>Un dépôt Git propre et un projet déployé en ligne, accessible par un lien.</p>
+          <p>Quiz Git/terminal, plus un vrai dépôt à créer et publier sur GitHub.</p>
         </div>
       </div>
-      <span class="phase-cta cta-locked">Se débloque après la Phase 03</span>
+      <a href="web/phase-04-cours-1.html" class="phase-cta cta-web">Commencer cette phase</a>
     </div>
 
     <div class="phase-card reveal">
@@ -180,19 +179,19 @@
             <div class="phase-tags"><span class="ph-tag">React</span></div>
           </div>
         </div>
-        <span class="phase-badge badge-soon">Bientôt</span>
+        <span class="phase-badge badge-open">Disponible</span>
       </div>
       <div class="phase-body">
         <div class="phase-block">
           <div class="phase-block-label">Cours</div>
-          <p>Composants, état, props — penser une interface en briques réutilisables.</p>
+          <p>Composants, état, props — penser une interface en briques réutilisables. En trois parties.</p>
         </div>
         <div class="phase-block">
           <div class="phase-block-label">Projet</div>
-          <p>Une application front complète avec plusieurs vues et une vraie gestion d'état.</p>
+          <p>Ta liste de tâches réécrite en React, avec plusieurs vues et une vraie gestion d'état.</p>
         </div>
       </div>
-      <span class="phase-cta cta-locked">Se débloque après la Phase 04</span>
+      <a href="web/phase-05-cours-1.html" class="phase-cta cta-web">Commencer cette phase</a>
     </div>
 
     <div class="phase-card reveal">
@@ -204,19 +203,19 @@
             <div class="phase-tags"><span class="ph-tag">Node.js</span><span class="ph-tag">Base de données</span></div>
           </div>
         </div>
-        <span class="phase-badge badge-soon">Bientôt</span>
+        <span class="phase-badge badge-open">Disponible</span>
       </div>
       <div class="phase-body">
         <div class="phase-block">
           <div class="phase-block-label">Cours</div>
-          <p>Serveur, routes, base de données — faire vivre des données au-delà du navigateur.</p>
+          <p>Serveur, routes, base de données — faire vivre des données au-delà du navigateur. En trois parties.</p>
         </div>
         <div class="phase-block">
           <div class="phase-block-label">Projet</div>
-          <p>Une API fonctionnelle qui lit et écrit dans une vraie base de données.</p>
+          <p>Un simulateur d'API REST complet (GET/POST/PUT/DELETE) en JavaScript.</p>
         </div>
       </div>
-      <span class="phase-cta cta-locked">Se débloque après la Phase 05</span>
+      <a href="web/phase-06-cours-1.html" class="phase-cta cta-web">Commencer cette phase</a>
     </div>
 
     <div class="phase-card reveal">
@@ -279,6 +278,9 @@
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
   async function updateWebPhases() {
+    // Point d'entrée du cours pour chaque phase — par défaut "phase-XX-cours.html",
+    // sauf exception listée ici (phases découpées en plusieurs cours).
+    const COURS_ENTRY = { '03': 'phase-03-cours-1.html', '04': 'phase-04-cours-1.html', '05': 'phase-05-cours-1.html', '06': 'phase-06-cours-1.html' };
     const user = await devyoonGetUser();
     const progress = user ? await devyoonGetProgress() : { web: [] };
     const completed = new Set(progress.web.map(row => row.phase_id));
@@ -298,9 +300,9 @@
 
       if (unlocked) {
         badge.textContent = done ? 'Terminée' : 'Disponible';
-        badge.className = 'phase-badge ' + (done ? 'badge-open' : 'badge-open');
+        badge.className = 'phase-badge badge-open';
         const link = document.createElement('a');
-        link.href = `web/phase-${phaseNumber}-cours.html`;
+        link.href = `web/${COURS_ENTRY[phaseNumber] || 'phase-' + phaseNumber + '-cours.html'}`;
         link.className = 'phase-cta cta-web';
         link.textContent = done ? 'Revoir cette phase' : 'Commencer cette phase';
         cta.replaceWith(link);
