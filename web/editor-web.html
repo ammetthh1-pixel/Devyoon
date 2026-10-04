@@ -12,6 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
@@ -101,6 +102,7 @@ body { background: var(--ink); color: var(--text); font-family: var(--body); fon
 .tab-dot { width: 7px; height: 7px; border-radius: 50%; }
 .td-html { background: #F06529; }
 .td-css { background: #264DE4; }
+.td-js { background: #F0DB4F; }
 .editor-area { flex: 1; overflow: hidden; position: relative; }
 .cm-pane { position: absolute; inset: 0; display: none; }
 .cm-pane.active { display: block; }
@@ -234,10 +236,12 @@ body { background: var(--ink); color: var(--text); font-family: var(--body); fon
     <div class="editor-tabs">
       <div class="editor-tab active" onclick="switchTab('html')" id="tab-html"><span class="tab-dot td-html"></span>index.html</div>
       <div class="editor-tab" onclick="switchTab('css')" id="tab-css"><span class="tab-dot td-css"></span>style.css</div>
+      <div class="editor-tab" onclick="switchTab('js')" id="tab-js" style="display:none;"><span class="tab-dot td-js"></span>script.js</div>
     </div>
     <div class="editor-area">
       <div class="cm-pane active" id="pane-html"><textarea id="editor-html"></textarea></div>
       <div class="cm-pane" id="pane-css"><textarea id="editor-css"></textarea></div>
+      <div class="cm-pane" id="pane-js"><textarea id="editor-js"></textarea></div>
     </div>
     <div class="editor-statusbar">
       <div class="statusbar-item live"><span class="live-dot"></span>Prévisualisation en direct</div>
@@ -309,7 +313,7 @@ function showEditorError(message) {
   document.getElementById('editor-layout').innerHTML = `<div class="editor-error">${message}</div>`;
 }
 
-let editorHTML, editorCSS, mockupLoaded = false;
+let editorHTML, editorCSS, editorJS, mockupLoaded = false;
 
 window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('phase-pill').textContent = 'Phase ' + PHASE_NUM;
@@ -364,6 +368,14 @@ window.addEventListener('DOMContentLoaded', async () => {
   editorHTML.on('cursorActivity', updateStatusBar);
   editorHTML.on('change', updateStatusBar);
 
+  if (PROJECT.starterJS !== undefined) {
+    document.getElementById('tab-js').style.display = 'flex';
+    editorJS = CodeMirror.fromTextArea(document.getElementById('editor-js'), {
+      mode: PROJECT.jsMode || 'javascript', theme: 'dracula', lineNumbers: true, autoCloseBrackets: true, matchBrackets: true, tabSize: 2, value: PROJECT.starterJS
+    });
+    editorJS.setValue(PROJECT.starterJS);
+  }
+
   renderObjectives();
   updateProgLabel();
   setMobilePanel('editor');
@@ -400,7 +412,9 @@ function switchTab(tab) {
   document.querySelectorAll('.cm-pane').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   document.getElementById('pane-' + tab).classList.add('active');
-  if (tab === 'html') editorHTML.refresh(); else editorCSS.refresh();
+  if (tab === 'html') editorHTML.refresh();
+  else if (tab === 'css') editorCSS.refresh();
+  else if (tab === 'js' && editorJS) editorJS.refresh();
 }
 
 function runCode() {
@@ -408,6 +422,12 @@ function runCode() {
   const css = editorCSS.getValue();
   const injectCSS = `<style>${css}</style>`;
   let finalHTML = html.includes('<link') ? html.replace(/<link[^>]*href=["']style\.css["'][^>]*>/, injectCSS) : html.replace('</head>', injectCSS + '</head>');
+  if (editorJS) {
+    const js = editorJS.getValue();
+    const scriptType = PROJECT.scriptType || 'text/javascript';
+    const injectJS = `<script type="${scriptType}">\ndocument.addEventListener('DOMContentLoaded', () => {\n${js}\n});\n<\/script>`;
+    finalHTML = finalHTML.includes('</body>') ? finalHTML.replace('</body>', injectJS + '</body>') : finalHTML + injectJS;
+  }
   const iframe = document.getElementById('preview-iframe');
   const doc = iframe.contentDocument || iframe.contentWindow.document;
   doc.open(); doc.write(finalHTML); doc.close();
@@ -416,16 +436,24 @@ function runCode() {
 async function validateCode() {
   const html = editorHTML.getValue();
   const css = editorCSS.getValue();
+  const js = editorJS ? editorJS.getValue() : '';
   // On retire les commentaires avant de tester : un exemple de code laissé
   // en commentaire dans le starter (ex. "/* .cartes { display:flex; } */")
-  // ne doit jamais compter comme du HTML/CSS réellement écrit par l'élève.
+  // ne doit jamais compter comme du HTML/CSS/JS réellement écrit par l'élève.
   const htmlNoComments = html.replace(/<!--[\s\S]*?-->/g, '');
   const cssNoComments = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const jsNoComments = js.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
   let passed = 0;
+  runCode(); // s'assure que l'aperçu reflète bien le code actuel avant de valider
+  if (PROJECT.scriptType === 'text/babel') {
+    // Babel transforme le JSX puis React monte le rendu de façon asynchrone —
+    // on laisse un court délai avant de lire le DOM de l'aperçu.
+    await new Promise(r => setTimeout(r, 400));
+  }
   const previewDoc = document.getElementById('preview-iframe').contentDocument;
   const results = PROJECT.type === 'quiz'
     ? PROJECT.validateQuiz(previewDoc)
-    : PROJECT.objectives.map(o => { try { return !!o.test(htmlNoComments, cssNoComments); } catch(e) { return false; } });
+    : PROJECT.objectives.map(o => { try { return !!o.test(htmlNoComments, cssNoComments, jsNoComments, previewDoc); } catch(e) { return false; } });
 
   results.forEach((ok, i) => {
     const num = i + 1;

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projet Phase 06 — Simulateur d'API REST · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-06-cours-1.html" class="nav-cta">Revoir les cours</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Projet · Phase 06</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-projet">Projet · Phase 06</span>
+      <span class="lesson-duration">≈ 2h30</span>
+    </div>
+    <h1 class="lesson-title">Simulateur d'API REST</h1>
+    <p class="lesson-intro">Un vrai serveur Express ne peut pas tourner dans cet éditeur — il faudrait un vrai processus Node.js, que le navigateur ne peut pas exécuter. Ce projet simule donc les quatre opérations CRUD d'une API en JavaScript pur, avec les mêmes noms et la même logique qu'un vrai serveur Express.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Objectif</h2>
+    <p>Complète quatre fonctions qui imitent les routes d'une API REST de tâches — <code>getTaches</code>, <code>creerTache</code>, <code>modifierTache</code>, <code>supprimerTache</code> — reliées à une petite interface déjà fournie qui affiche le résultat de chaque "requête".</p>
+
+    <div class="brief-box">
+      <h3>Les quatre fonctions à compléter</h3>
+      <div class="checklist">
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>getTaches()</strong> — équivalent de <code>GET /api/taches</code>, renvoie le tableau complet</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>creerTache(texte)</strong> — équivalent de <code>POST /api/taches</code>, ajoute et renvoie la nouvelle tâche</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>modifierTache(id, terminee)</strong> — équivalent de <code>PUT /api/taches/:id</code></p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>supprimerTache(id)</strong> — équivalent de <code>DELETE /api/taches/:id</code></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Contraintes techniques</h2>
+    <ul>
+      <li>Ne modifie pas l'interface déjà fournie (les boutons et la zone d'affichage) — complète seulement les quatre fonctions</li>
+      <li><code>creerTache</code> doit utiliser et incrémenter <code>prochainId</code>, exactement comme l'exemple du cours 3</li>
+      <li><code>modifierTache</code> doit retrouver la tâche par son id dans le tableau, comme le ferait une vraie requête <code>WHERE id = ...</code></li>
+    </ul>
+
+    <div class="example-callout">
+      <div class="def-label">Le lien avec un vrai serveur</div>
+      <p>Si tu reprends ce code et que tu l'places dans des routes Express (<code>app.get("/api/taches", (req, res) => res.json(getTaches()))</code>, etc.), tu as déjà un vrai serveur fonctionnel. La logique ne change pas — seul le "transport" (HTTP au lieu d'un clic de bouton) change.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Critère de réussite</h2>
+    <p>Chaque bouton de l'interface déclenche la bonne opération et affiche un résultat cohérent dans la zone de sortie — une création apparaît dans la liste suivante, une modification change bien l'état "terminée", une suppression fait disparaître la tâche des listes suivantes.</p>
+  </section>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-06-cours-3.html" class="lesson-nav-btn lnb-ghost">← Revoir les cours</a>
+  <a href="editor-web.html?phase=06" class="lesson-nav-btn lnb-primary">Ouvrir l'éditeur →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

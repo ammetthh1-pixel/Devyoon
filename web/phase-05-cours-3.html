@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 05 · Cours 3/3 — État, listes et assemblage · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-05-projet.html" class="nav-cta">Voir le projet</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 05</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours 3/3 · Phase 05</span>
+      <span class="lesson-duration">≈ 40 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">État, listes et assemblage</h1>
+    <p class="lesson-intro">Dernier cours de la phase : l'état, ce qui rend un composant vraiment interactif, puis comment afficher des listes de données proprement — les deux ingrédients qui manquent pour construire ton projet.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>useState : donner une mémoire à un composant</h2>
+    <p>Un composant a besoin de retenir des informations qui changent dans le temps — un compteur, une liste, un filtre actif. C'est le rôle du <strong>hook</strong> <code>useState</code>.</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> { useState } = React;
+
+<span class="c-key">function</span> Compteur() {
+  <span class="c-key">const</span> [valeur, setValeur] = useState(0);
+
+  <span class="c-key">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;Compteur : {valeur}&lt;/p&gt;
+      &lt;button onClick={() => setValeur(valeur + 1)}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></div>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p><code>useState(valeurInitiale)</code> renvoie une paire : la valeur actuelle, et une fonction pour la modifier. Appeler cette fonction déclenche automatiquement un nouveau rendu du composant avec la valeur à jour — <strong>jamais</strong> modifier directement la variable d'état.</p>
+    </div>
+
+    <p>Un <strong>hook</strong> est une fonction spéciale de React (toujours préfixée <code>use</code>) qui donne accès à des fonctionnalités comme l'état, appelable uniquement à l'intérieur d'un composant.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>État avec un tableau ou un objet</h2>
+    <p>L'état peut contenir une structure complète, comme une liste de tâches. La règle à retenir : on ne modifie jamais un tableau ou un objet d'état directement — on en crée toujours un nouveau.</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> [taches, setTaches] = useState([
+  { id: 1, texte: <span class="c-str">"Réviser React"</span> }
+]);
+
+<span class="c-com">// Ajouter une tâche : on crée un NOUVEAU tableau, on ne modifie pas l'ancien</span>
+<span class="c-key">function</span> ajouterTache(texte) {
+  setTaches([...taches, { id: Date.now(), texte }]);
+}</code></div>
+
+    <div class="def-box">
+      <div class="def-label">Pourquoi ne pas modifier directement</div>
+      <p>React détecte les changements en comparant l'ancienne et la nouvelle référence. Modifier le tableau existant (<code>taches.push(...)</code>) garde la même référence — React ne voit alors aucun changement et ne réaffiche rien. Créer un nouveau tableau (avec <code>[...taches, nouvelleTache]</code>) est ce qui déclenche le rendu.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Afficher une liste avec .map()</h2>
+    <p>Pour transformer un tableau de données en une liste de composants, on utilise <code>.map()</code> — la même méthode que tu utilisais déjà en JavaScript pur.</p>
+
+    <div class="code-block"><code><span class="c-key">function</span> ListeTaches({ taches }) {
+  <span class="c-key">return</span> (
+    &lt;ul&gt;
+      {taches.map((tache) => (
+        &lt;li key={tache.id}&gt;{tache.texte}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</code></div>
+
+    <div class="def-box">
+      <div class="def-label">La prop <code>key</code></div>
+      <p>Chaque élément généré par <code>.map()</code> a besoin d'une prop <code>key</code> unique et stable (l'id de la donnée, pas l'index du tableau si la liste peut changer d'ordre). React s'en sert pour savoir quel élément a changé, a été ajouté ou supprimé, sans tout redessiner.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Affichage conditionnel</h2>
+    <p>Afficher quelque chose différemment selon l'état se fait avec les outils JavaScript habituels — une expression ternaire, ou l'opérateur <code>&&</code>.</p>
+
+    <div class="code-block"><code><span class="c-key">function</span> Statut({ estConnecte }) {
+  <span class="c-key">return</span> (
+    &lt;div&gt;
+      {estConnecte ? &lt;p&gt;Bienvenue !&lt;/p&gt; : &lt;p&gt;Connecte-toi.&lt;/p&gt;}
+      {estConnecte &amp;&amp; &lt;button&gt;Se déconnecter&lt;/button&gt;}
+    &lt;/div&gt;
+  );
+}</code></div>
+    <p>C'est exactement ce mécanisme qui permet de construire "plusieurs vues" dans une seule application : un état qui indique la vue active, et un rendu conditionnel qui affiche la bonne partie de l'interface en fonction.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Tout assembler</h2>
+    <p>Un exemple qui combine état, liste et affichage conditionnel — la structure que ton projet va reprendre et compléter.</p>
+
+    <div class="code-block"><code><span class="c-key">function</span> App() {
+  <span class="c-key">const</span> [taches, setTaches] = useState([
+    { id: 1, texte: <span class="c-str">"Réviser"</span>, terminee: <span class="c-str">false</span> }
+  ]);
+  <span class="c-key">const</span> [filtre, setFiltre] = useState(<span class="c-str">"toutes"</span>);
+
+  <span class="c-key">const</span> visibles = taches.filter((t) =>
+    filtre === <span class="c-str">"toutes"</span> ? <span class="c-str">true</span> : t.terminee === (filtre === <span class="c-str">"terminees"</span>)
+  );
+
+  <span class="c-key">return</span> (
+    &lt;div&gt;
+      &lt;button onClick={() => setFiltre(<span class="c-str">"toutes"</span>)}&gt;Toutes&lt;/button&gt;
+      &lt;ul&gt;
+        {visibles.map((t) => &lt;li key={t.id}&gt;{t.texte}&lt;/li&gt;)}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></div>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li><code>useState</code> donne à un composant une valeur qu'il peut modifier, en déclenchant un nouveau rendu.</li>
+      <li>On ne modifie jamais un tableau/objet d'état directement — on en crée un nouveau à chaque mise à jour.</li>
+      <li><code>.map()</code> transforme des données en composants ; chaque élément a besoin d'une <code>key</code> unique et stable.</li>
+      <li>Le rendu conditionnel (ternaire, <code>&&</code>) permet de construire plusieurs "vues" dans une seule application.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-05-cours-2.html" class="lesson-nav-btn lnb-ghost">← Cours 2/3</a>
+  <a href="phase-05-projet.html" class="lesson-nav-btn lnb-primary">Passer au projet →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

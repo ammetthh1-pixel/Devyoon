@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projet Phase 03 — Ta liste de tâches · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-03-cours-1.html" class="nav-cta">Revoir les cours</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Projet · Phase 03</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-projet">Projet · Phase 03</span>
+      <span class="lesson-duration">≈ 2h30</span>
+    </div>
+    <h1 class="lesson-title">Ta liste de tâches</h1>
+    <p class="lesson-intro">Une vraie petite application, sans framework : ajouter une tâche, la marquer terminée, la voir apparaître instantanément. Tout ce que tu as vu dans les trois cours (variables/fonctions, DOM, événements) se retrouve ici.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Objectif</h2>
+    <p>Construis une <strong>liste de tâches interactive</strong> : un champ pour saisir une tâche, un bouton pour l'ajouter, et une liste qui s'actualise sans rechargement de page. Cette fois, l'éditeur a un troisième onglet : <code>script.js</code>, pour ton JavaScript.</p>
+
+    <div class="brief-box">
+      <h3>Fonctionnalités attendues</h3>
+      <div class="checklist">
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>Ajouter</strong> — taper une tâche et cliquer sur le bouton l'ajoute à la liste</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>Champ vidé</strong> — après ajout, le champ de saisie redevient vide, prêt pour la tâche suivante</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>Marquer terminée</strong> — cliquer sur une tâche de la liste la barre (ou change son style)</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p><strong>Pas de tâche vide</strong> — cliquer sur "Ajouter" sans rien écrire ne doit rien ajouter</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Contraintes techniques</h2>
+    <ul>
+      <li>Écris ton JavaScript dans l'onglet <code>script.js</code> — il est automatiquement exécuté après le chargement de la page</li>
+      <li>Utilise <code>addEventListener</code> pour le bouton d'ajout</li>
+      <li>Crée les nouvelles tâches avec <code>document.createElement</code> et <code>appendChild</code> — pas de HTML écrit en dur pour chaque tâche</li>
+      <li>Pour "marquer terminée", utilise la <strong>délégation d'événements</strong> vue au cours 3 : un seul écouteur sur la liste, qui regarde l'élément cliqué</li>
+    </ul>
+
+    <div class="example-callout">
+      <div class="def-label">Astuce</div>
+      <p>Reprends directement l'exemple "Assembler le tout" du cours 3 comme point de départ, puis ajoute la logique de délégation du cours 3 pour la mise en terminé.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Critère de réussite</h2>
+    <p>Tu peux ajouter plusieurs tâches à la suite, chacune apparaît dans la liste, le champ se vide après chaque ajout, et cliquer sur une tâche la marque visuellement comme terminée.</p>
+  </section>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-03-cours-3.html" class="lesson-nav-btn lnb-ghost">← Revoir les cours</a>
+  <a href="editor-web.html?phase=03" class="lesson-nav-btn lnb-primary">Ouvrir l'éditeur →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

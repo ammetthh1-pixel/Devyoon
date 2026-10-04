@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 06 · Cours 3/3 — Construire une API REST complète · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-06-projet.html" class="nav-cta">Voir le projet</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 06</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours 3/3 · Phase 06</span>
+      <span class="lesson-duration">≈ 30 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Construire une API REST complète</h1>
+    <p class="lesson-intro">Routes, requêtes, base de données : il manque la convention qui rend tout ça cohérent et prévisible pour quiconque utilise ton API. C'est ce que REST apporte — et c'est exactement la structure que ton projet va reproduire.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Le principe REST</h2>
+    <p><strong>REST</strong> (Representational State Transfer) est un ensemble de conventions pour organiser une API autour de <strong>ressources</strong> (des entités comme "une ville", "une tâche") et de méthodes HTTP qui décrivent l'action voulue sur cette ressource.</p>
+
+    <div class="def-box">
+      <div class="def-label">La convention REST</div>
+      <table style="width:100%; border-collapse:collapse; margin-top:8px;">
+        <tr style="border-bottom:1px solid #1E2D45;"><td style="padding:6px 8px; color:#7A8BAD;">Action</td><td style="padding:6px 8px; color:#7A8BAD;">Méthode</td><td style="padding:6px 8px; color:#7A8BAD;">Adresse</td></tr>
+        <tr style="border-bottom:1px solid #1E2D45;"><td style="padding:6px 8px;">Lister toutes les ressources</td><td style="padding:6px 8px;"><code>GET</code></td><td style="padding:6px 8px;"><code>/items</code></td></tr>
+        <tr style="border-bottom:1px solid #1E2D45;"><td style="padding:6px 8px;">Lire une ressource précise</td><td style="padding:6px 8px;"><code>GET</code></td><td style="padding:6px 8px;"><code>/items/:id</code></td></tr>
+        <tr style="border-bottom:1px solid #1E2D45;"><td style="padding:6px 8px;">Créer une ressource</td><td style="padding:6px 8px;"><code>POST</code></td><td style="padding:6px 8px;"><code>/items</code></td></tr>
+        <tr style="border-bottom:1px solid #1E2D45;"><td style="padding:6px 8px;">Modifier une ressource</td><td style="padding:6px 8px;"><code>PUT</code></td><td style="padding:6px 8px;"><code>/items/:id</code></td></tr>
+        <tr><td style="padding:6px 8px;">Supprimer une ressource</td><td style="padding:6px 8px;"><code>DELETE</code></td><td style="padding:6px 8px;"><code>/items/:id</code></td></tr>
+      </table>
+    </div>
+
+    <p>L'adresse ne contient jamais le verbe d'action (pas de <code>/getItems</code> ou <code>/deleteItem</code>) — c'est la <strong>méthode HTTP</strong> qui porte l'intention, l'adresse ne décrit que la ressource.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Codes de statut pour chaque cas</h2>
+    <p>Au-delà de <code>200</code> et <code>404</code> vus en Phase 00, une API REST bien conçue distingue plus précisément les cas :</p>
+
+    <ul>
+      <li><strong>200 OK</strong> — lecture ou modification réussie</li>
+      <li><strong>201 Created</strong> — création réussie (réponse à un <code>POST</code>)</li>
+      <li><strong>204 No Content</strong> — suppression réussie, rien à renvoyer</li>
+      <li><strong>400 Bad Request</strong> — la requête envoyée est mal formée</li>
+      <li><strong>404 Not Found</strong> — la ressource demandée n'existe pas</li>
+      <li><strong>500 Internal Server Error</strong> — une erreur côté serveur</li>
+    </ul>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Exemple complet : une API de tâches</h2>
+    <p>En combinant tout ce qui précède, voici une API CRUD complète pour des tâches — le même modèle de données que ton tout premier projet IA, mais exposé en HTTP cette fois.</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> express = require(<span class="c-str">"express"</span>);
+<span class="c-key">const</span> app = express();
+app.use(express.json());
+
+<span class="c-key">let</span> taches = [{ id: 1, texte: <span class="c-str">"Réviser"</span>, terminee: <span class="c-str">false</span> }];
+<span class="c-key">let</span> prochainId = 2;
+
+app.get(<span class="c-str">"/api/taches"</span>, (req, res) => res.json(taches));
+
+app.post(<span class="c-str">"/api/taches"</span>, (req, res) => {
+  <span class="c-key">const</span> tache = { id: prochainId++, texte: req.body.texte, terminee: <span class="c-str">false</span> };
+  taches.push(tache);
+  res.status(201).json(tache);
+});
+
+app.put(<span class="c-str">"/api/taches/:id"</span>, (req, res) => {
+  <span class="c-key">const</span> tache = taches.find(t => t.id === Number(req.params.id));
+  <span class="c-key">if</span> (!tache) <span class="c-key">return</span> res.status(404).json({ erreur: <span class="c-str">"Introuvable"</span> });
+  tache.terminee = req.body.terminee;
+  res.json(tache);
+});
+
+app.delete(<span class="c-str">"/api/taches/:id"</span>, (req, res) => {
+  taches = taches.filter(t => t.id !== Number(req.params.id));
+  res.status(204).send();
+});
+
+app.listen(3000);</code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Appeler cette API depuis le front</h2>
+    <p>Côté client (ton app React ou JS vanille), c'est exactement <code>fetch()</code> — vu en Phase 01 du parcours IA pour consommer une API externe, utilisé ici pour parler à ta propre API.</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> reponse = <span class="c-key">await</span> fetch(<span class="c-str">"/api/taches"</span>, {
+  method: <span class="c-str">"POST"</span>,
+  headers: { <span class="c-str">"Content-Type"</span>: <span class="c-str">"application/json"</span> },
+  body: JSON.stringify({ texte: <span class="c-str">"Nouvelle tâche"</span> })
+});
+<span class="c-key">const</span> tache = <span class="c-key">await</span> reponse.json();</code></div>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>REST organise une API autour de ressources ; l'action vient de la méthode HTTP, pas de l'adresse.</li>
+      <li>201 pour une création, 204 pour une suppression réussie sans contenu, 404 pour une ressource absente.</li>
+      <li>Un serveur Express complet combine routes, lecture de <code>req.body</code>/<code>req.params</code>, et une structure de données (en mémoire ou en base).</li>
+      <li>Le front appelle cette API avec <code>fetch()</code>, exactement comme pour une API externe.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-06-cours-2.html" class="lesson-nav-btn lnb-ghost">← Cours 2/3</a>
+  <a href="phase-06-projet.html" class="lesson-nav-btn lnb-primary">Passer au projet →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

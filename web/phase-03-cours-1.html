@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 03 · Cours 1/3 — Les bases de JavaScript · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-03-cours-2.html" class="nav-cta">Cours suivant →</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 03</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours 1/3 · Phase 03</span>
+      <span class="lesson-duration">≈ 35 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Les bases de JavaScript</h1>
+    <p class="lesson-intro">Le HTML donne la structure, le CSS donne l'apparence. JavaScript, lui, donne le comportement : c'est le seul des trois qui peut réagir, calculer, décider. Cette phase est en trois parties — ce premier cours pose le langage, les deux suivants passent au DOM et aux événements.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Ce que JavaScript ajoute</h2>
+    <p>Une page en HTML/CSS pur est figée : une fois chargée, rien ne change sans recharger la page. JavaScript s'exécute <strong>après</strong> le chargement et peut réagir à ce que fait la personne qui visite le site — un clic, une saisie, un défilement — et modifier la page en conséquence, sans rechargement.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>JavaScript est un langage de programmation exécuté directement dans le navigateur. Il permet de lire et modifier une page (via le DOM, vu au cours 2), de réagir à des événements (vu au cours 3), et de faire des calculs ou de la logique comme n'importe quel langage.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Déclarer une variable : let et const</h2>
+    <p>Une variable stocke une valeur pour la réutiliser. En JavaScript moderne, on utilise <code>let</code> pour une valeur qui va changer, et <code>const</code> pour une valeur qui ne changera plus après sa déclaration.</p>
+
+    <div class="code-block"><code><span class="c-key">let</span> score = 0;
+score = score + 10;      <span class="c-com">// autorisé : "let" peut être réassigné</span>
+
+<span class="c-key">const</span> nomSite = <span class="c-str">"DevYoon"</span>;
+<span class="c-com">// nomSite = "Autre";     -> erreur : une const ne se réassigne pas</span></code></div>
+
+    <div class="def-box">
+      <div class="def-label">Et le mot-clé <code>var</code> ?</div>
+      <p>Tu croiseras encore <code>var</code> dans du vieux code — c'est l'ancienne façon de déclarer une variable, avec des règles de portée plus permissives et souvent source de bugs. Dans du code écrit aujourd'hui, on utilise uniquement <code>let</code> et <code>const</code>.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Les types de données</h2>
+    <p>Comme en Python, le type d'une variable JavaScript est déduit de sa valeur. Les types de base :</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> age = 19;                    <span class="c-com">// number</span>
+<span class="c-key">const</span> ville = <span class="c-str">"Thiès"</span>;             <span class="c-com">// string</span>
+<span class="c-key">const</span> estEtudiant = <span class="c-str">true</span>;          <span class="c-com">// boolean</span>
+<span class="c-key">const</span> langages = [<span class="c-str">"HTML"</span>, <span class="c-str">"CSS"</span>, <span class="c-str">"JS"</span>]; <span class="c-com">// array</span>
+<span class="c-key">const</span> profil = { nom: <span class="c-str">"Awa"</span>, age: 22 };  <span class="c-com">// object</span>
+<span class="c-key">let</span> resultat;                        <span class="c-com">// undefined (pas encore de valeur)</span></code></div>
+
+    <p>Les <strong>tableaux</strong> (<code>array</code>) et les <strong>objets</strong> (<code>object</code>) sont les équivalents des listes et dictionnaires Python — tu les retrouveras partout dès qu'on touchera au DOM.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Comparaisons et conditions</h2>
+    <p>JavaScript propose deux opérateurs d'égalité : <code>==</code> et <code>===</code>. En pratique, on utilise presque toujours <code>===</code>.</p>
+
+    <div class="def-box">
+      <div class="def-label">Pourquoi <code>===</code> et pas <code>==</code></div>
+      <p><code>==</code> convertit les types avant de comparer (<code>"5" == 5</code> vaut <code>true</code>, ce qui surprend souvent). <code>===</code> compare la valeur <strong>et</strong> le type, sans conversion cachée — c'est le comportement prévisible qu'on veut presque toujours.</p>
+    </div>
+
+    <div class="code-block"><code><span class="c-key">const</span> note = 14;
+
+<span class="c-key">if</span> (note >= 16) {
+  console.log(<span class="c-str">"Très bien"</span>);
+} <span class="c-key">else if</span> (note >= 10) {
+  console.log(<span class="c-str">"Admis"</span>);
+} <span class="c-key">else</span> {
+  console.log(<span class="c-str">"Insuffisant"</span>);
+}</code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Boucles</h2>
+    <p>Deux formes reviennent le plus souvent : <code>for</code> classique pour compter, <code>for...of</code> pour parcourir directement les éléments d'un tableau.</p>
+
+    <div class="code-block"><code><span class="c-key">for</span> (<span class="c-key">let</span> i = 0; i &lt; 5; i++) {
+  console.log(i);              <span class="c-com">// 0 1 2 3 4</span>
+}
+
+<span class="c-key">const</span> fruits = [<span class="c-str">"mangue"</span>, <span class="c-str">"banane"</span>, <span class="c-str">"orange"</span>];
+<span class="c-key">for</span> (<span class="c-key">const</span> fruit <span class="c-key">of</span> fruits) {
+  console.log(fruit);
+}</code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Fonctions</h2>
+    <p>Deux syntaxes courantes pour écrire une fonction — la déclaration classique et la fonction fléchée, plus courte, très utilisée dans le code moderne (et dans les gestionnaires d'événements du cours 3).</p>
+
+    <div class="code-block"><code><span class="c-com">// Déclaration classique</span>
+<span class="c-key">function</span> moyenne(notes) {
+  <span class="c-key">const</span> somme = notes.reduce((a, b) => a + b, 0);
+  <span class="c-key">return</span> somme / notes.length;
+}
+
+<span class="c-com">// Fonction fléchée équivalente</span>
+<span class="c-key">const</span> moyenneFlechee = (notes) => {
+  <span class="c-key">const</span> somme = notes.reduce((a, b) => a + b, 0);
+  <span class="c-key">return</span> somme / notes.length;
+};
+
+console.log(moyenne([12, 15, 9, 18])); <span class="c-com">// 13.5</span></code></div>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>On déclare avec <code>let</code> (valeur modifiable) ou <code>const</code> (valeur fixe) — jamais <code>var</code> dans du code neuf.</li>
+      <li>Les types de base : number, string, boolean, array, object, undefined.</li>
+      <li><code>===</code> compare valeur et type sans conversion cachée — à préférer à <code>==</code>.</li>
+      <li><code>for</code> compte, <code>for...of</code> parcourt directement les éléments d'un tableau.</li>
+      <li>Les fonctions fléchées (<code>() => {}</code>) sont la syntaxe la plus courante en JavaScript moderne.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="../parcours-web.html" class="lesson-nav-btn lnb-ghost">← Retour au parcours</a>
+  <a href="phase-03-cours-2.html" class="lesson-nav-btn lnb-primary">Cours 2/3 : Le DOM →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

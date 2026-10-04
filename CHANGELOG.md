@@ -139,17 +139,20 @@ Le site complet est livré sous forme d'un paquet unique, `devyoon.zip`, mis à 
 | `web/phase-01-projet.html` | ✅ Terminé | Brief du projet — page personnelle complète |
 | `web/editor-web.html` | ✅ Terminé | Éditeur générique Web (piloté par `?phase=`, charge dynamiquement `web/projects/phase-XX.js`) |
 | `web/projects/phase-01.js` | ✅ Terminé | Config isolée de la Phase 01 Web (un fichier par projet) |
+| `web/phase-02-cours.html` | ✅ Terminé | Cours complet — Flexbox, Grid, media queries |
+| `web/phase-02-projet.html` | ✅ Terminé | Brief du projet — site vitrine responsive |
+| `web/projects/phase-02.js` | ✅ Terminé | Config isolée de la Phase 02 Web (6 objectifs, dont media query) |
 | `ia/editor-ia.html` | ✅ Terminé | Éditeur générique IA (Pyodide, piloté par `?phase=`, charge dynamiquement `ia/projects/phase-XX.js`) |
 | `ia/projects/phase-00.js` | ✅ Terminé | Config isolée de la Phase 00 IA (un fichier par projet) |
+| `style.css` | ✅ Terminé | Design system principal — v2 remise en forme par M |
 | `assets/config.js` | 🔧 À compléter par M | Identifiants Supabase (même projet que DevKëf) |
 | `assets/auth.js` | ✅ Terminé | Inscription / connexion / session (email + mot de passe) |
 | `assets/progress.js` | ✅ Terminé | Sauvegarde de la progression + calcul des badges |
 | `login.html` | ✅ Terminé | Connexion / inscription |
 | `dashboard.html` | ✅ Terminé | Progression par parcours + badges |
-| `style.css` | ✅ Terminé | Design system principal (pages landing) |
 | `course.css` | ✅ Terminé | Design system des pages de cours/projet (variantes orange Web / violet IA) |
 | Table Supabase `devyoon_progress` | 🔧 À créer par M | Voir schéma en commentaire dans `progress.js` |
-| Phases 02 à 07 (Web) | ⏳ À venir | Cours + projet + `web/projects/phase-XX.js` |
+| Phases 03 à 07 (Web) | ⏳ À venir | Cours + projet + `web/projects/phase-XX.js` |
 | Phases 01 à 06 (IA) | ⏳ À venir | Cours + projet + `ia/projects/phase-XX.js` |
 | `login.html` | ⏳ À venir (V2) | Connexion / inscription |
 | Dashboard de progression | ⏳ À venir (V2) | Suivi par parcours, badges |
@@ -214,3 +217,17 @@ Le site complet est livré sous forme d'un paquet unique, `devyoon.zip`, mis à 
   - Schéma stable imposé : `WEB_SCHEMA` (`title, briefFile, coursFile, starterHTML, starterCSS, objectives`) et `IA_SCHEMA` (`title, briefFile, coursFile, scripts`) — un champ manquant dans une future phase est signalé explicitement au lieu de faire planter l'éditeur silencieusement
   - `phases-config.js` (les deux anciens fichiers agrégés) supprimés
   - `briefFile` / `coursFile` restent des liens vers les pages HTML existantes, comme avant — aucun contenu de brief déplacé dans le JS
+
+### 2026-09-05 (suite)
+
+- **Nouveau `style.css` fourni par M** (remise en forme de la page d'accueil) : appliqué tel quel — le fichier confirme lui-même qu'aucune classe HTML n'a changé, remplacement direct sans risque
+- **Phase 02 du parcours Web rédigée en entier** : `web/phase-02-cours.html` (Flexbox, Grid, media queries, approche mobile-first, diagrammes) et `web/phase-02-projet.html` (brief "site vitrine responsive")
+- `web/projects/phase-02.js` : 6 objectifs, dont la présence d'une media query et la vérification que la mise en page change réellement selon la largeur d'écran (pas seulement la taille du texte)
+- Bug d'apostrophe mal échappée (le même type que celui corrigé par M sur les phases précédentes) détecté et corrigé avant livraison — vérification systématique (`node --check`) désormais appliquée à chaque nouveau fichier de projet
+- Carte Phase 02 débloquée sur `parcours-web.html`
+- Question de M sur le projet Phase 01 (coder "à l'extérieur" vs sur le site, écriture de CSS) — en attente de clarification avant modification
+
+### 2026-09-05 (suite) — Correction du brief Phase 01
+
+- **Clarification obtenue** : la contrainte "Le CSS doit être dans un fichier externe, lié avec `<link>`" dans `web/phase-01-projet.html` correspondait à l'ancien plan (coder en dehors du site). Elle ne reflétait plus le fonctionnement réel de l'éditeur à onglets (HTML/CSS combinés automatiquement, aucune balise `<link>` à gérer par l'utilisateur)
+- Contrainte corrigée : « Écris tout ton CSS dans l'onglet `style.css` de l'éditeur — pas de style en ligne. Les deux onglets sont automatiquement reliés. » Aucun changement nécessaire côté validation (`web/projects/phase-01.js`) ni côté Phase 02, qui n'avait pas cette formulation obsolète

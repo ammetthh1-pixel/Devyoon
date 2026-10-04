@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 04 · Cours 1/2 — Le terminal · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-04-cours-2.html" class="nav-cta">Cours suivant →</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 04</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours 1/2 · Phase 04</span>
+      <span class="lesson-duration">≈ 25 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Le terminal</h1>
+    <p class="lesson-intro">Jusqu'ici, tout se passait dans l'éditeur du site. À partir de cette phase, tu sors du navigateur : Git et le déploiement se pilotent depuis la ligne de commande. Ce premier cours pose les bases indispensables avant d'attaquer Git lui-même.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Pourquoi la ligne de commande</h2>
+    <p>Un terminal exécute des commandes textuelles plutôt que des clics. Ça semble plus lent au premier abord, mais c'est en réalité l'outil le plus rapide et le plus universel pour naviguer dans des fichiers, lancer des programmes, et — ce qui nous intéresse ici — piloter Git.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>Le <strong>terminal</strong> (ou <em>shell</em>) est un programme qui lit des commandes textuelles et les exécute. Sur Windows on utilise souvent Git Bash ou PowerShell, sur macOS et Linux le Terminal est intégré.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Se repérer : où suis-je ?</h2>
+    <p>Le terminal travaille toujours dans un <strong>dossier courant</strong>. Avant de faire quoi que ce soit, il faut savoir où on se trouve et ce qu'il y a autour.</p>
+
+    <div class="code-block"><code>pwd                  <span class="c-com"># affiche le chemin du dossier courant</span>
+ls                   <span class="c-com"># liste les fichiers et dossiers ici (dir sur Windows)</span>
+ls -la               <span class="c-com"># liste aussi les fichiers cachés, avec plus de détails</span></code></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Se déplacer et créer</h2>
+    <div class="code-block"><code>cd mon-dossier       <span class="c-com"># entre dans "mon-dossier"</span>
+cd ..                <span class="c-com"># remonte d'un niveau</span>
+cd ~                 <span class="c-com"># retourne au dossier personnel</span>
+
+mkdir mon-projet     <span class="c-com"># crée un nouveau dossier</span>
+touch index.html     <span class="c-com"># crée un fichier vide (macOS/Linux)</span></code></div>
+
+    <h3>Manipuler des fichiers</h3>
+    <div class="code-block"><code>mv ancien.txt nouveau.txt   <span class="c-com"># renomme (ou déplace)</span>
+cp fichier.txt copie.txt    <span class="c-com"># copie</span>
+rm fichier.txt              <span class="c-com"># supprime — attention, définitif</span>
+rm -r dossier                <span class="c-com"># supprime un dossier entier — encore plus définitif</span></code></div>
+
+    <div class="def-box">
+      <div class="def-label">Prudence</div>
+      <p>Le terminal n'a pas de corbeille. <code>rm</code> supprime immédiatement et définitivement. Avant un <code>rm -r</code>, un <code>ls</code> pour vérifier ce qu'on s'apprête à effacer n'est jamais du temps perdu.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Table de référence</h2>
+    <ul>
+      <li><code>pwd</code> — afficher le dossier courant</li>
+      <li><code>ls</code> — lister le contenu</li>
+      <li><code>cd &lt;dossier&gt;</code> — se déplacer</li>
+      <li><code>mkdir &lt;nom&gt;</code> — créer un dossier</li>
+      <li><code>touch &lt;fichier&gt;</code> — créer un fichier vide</li>
+      <li><code>mv</code> / <code>cp</code> / <code>rm</code> — déplacer, copier, supprimer</li>
+      <li><code>clear</code> — nettoyer l'écran du terminal</li>
+    </ul>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>Le terminal exécute des commandes textuelles dans un dossier courant, qu'on connaît avec <code>pwd</code>.</li>
+      <li><code>ls</code> et <code>cd</code> sont les deux commandes qu'on utilise en permanence pour se repérer.</li>
+      <li><code>mkdir</code>, <code>touch</code>, <code>mv</code>, <code>rm</code> couvrent l'essentiel de la gestion de fichiers.</li>
+      <li><code>rm</code> est définitif — pas de corbeille en ligne de commande.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="../parcours-web.html" class="lesson-nav-btn lnb-ghost">← Retour au parcours</a>
+  <a href="phase-04-cours-2.html" class="lesson-nav-btn lnb-primary">Cours 2/2 : Git →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 05 · Cours 1/3 — Composants et JSX · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-05-cours-2.html" class="nav-cta">Cours suivant →</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 05</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours 1/3 · Phase 05</span>
+      <span class="lesson-duration">≈ 35 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Composants et JSX</h1>
+    <p class="lesson-intro">Ta liste de tâches en JavaScript pur fonctionnait, mais à mesure qu'une interface grossit, manipuler le DOM à la main devient vite pénible. React propose une autre façon de penser : découper l'interface en composants, et décrire ce qu'on veut afficher plutôt que comment l'obtenir étape par étape.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Pourquoi un framework</h2>
+    <p>En JavaScript pur, chaque changement d'affichage passe par du <code>createElement</code>, <code>appendChild</code>, <code>textContent</code> — du code impératif qui décrit chaque étape. React fonctionne différemment : tu décris <strong>à quoi l'interface doit ressembler</strong> pour un état donné, et React se charge de mettre à jour le DOM pour que ça corresponde.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>Un <strong>framework front-end</strong> comme React fournit une façon structurée de construire des interfaces : découper l'UI en composants réutilisables, et laisser la bibliothèque gérer la synchronisation entre les données et ce qui s'affiche.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Un composant, en pratique</h2>
+    <p>Un composant React est simplement une <strong>fonction JavaScript</strong> qui renvoie ce qui doit s'afficher. Par convention, son nom commence toujours par une majuscule.</p>
+
+    <div class="code-block"><code><span class="c-key">function</span> Bienvenue() {
+  <span class="c-key">return</span> &lt;h1&gt;Bonjour DevYoon&lt;/h1&gt;;
+}</code></div>
+
+    <p>Cette syntaxe qui ressemble à du HTML directement dans du JavaScript s'appelle <strong>JSX</strong>. Ce n'est pas du HTML — c'est transformé (compilé) en appels JavaScript avant d'être exécuté.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p><strong>JSX</strong> (JavaScript XML) est une extension de syntaxe qui permet d'écrire des éléments d'interface directement dans du JavaScript. Le navigateur ne comprend pas le JSX nativement — un outil (ici, <strong>Babel</strong>) le transforme en JavaScript classique avant exécution.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Insérer du JavaScript dans le JSX</h2>
+    <p>Les accolades <code>{ }</code> permettent d'insérer n'importe quelle expression JavaScript au milieu du JSX.</p>
+
+    <div class="code-block"><code><span class="c-key">function</span> Salutation() {
+  <span class="c-key">const</span> nom = <span class="c-str">"Awa"</span>;
+  <span class="c-key">const</span> heure = <span class="key">new</span> Date().getHours();
+
+  <span class="c-key">return</span> (
+    &lt;div&gt;
+      &lt;h1&gt;Bonjour {nom}&lt;/h1&gt;
+      &lt;p&gt;Il est {heure}h.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></div>
+
+    <p>Une règle importante : un composant JSX doit toujours renvoyer <strong>un seul élément racine</strong> (ici, le <code>&lt;div&gt;</code> qui englobe le <code>&lt;h1&gt;</code> et le <code>&lt;p&gt;</code>).</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Assembler des composants</h2>
+    <p>Un composant peut en utiliser un autre, exactement comme une balise HTML — c'est le principe de <strong>composition</strong>, le cœur de React.</p>
+
+    <div class="code-block"><code><span class="c-key">function</span> Titre() {
+  <span class="c-key">return</span> &lt;h1&gt;Mon application&lt;/h1&gt;;
+}
+
+<span class="c-key">function</span> App() {
+  <span class="c-key">return</span> (
+    &lt;div&gt;
+      &lt;Titre /&gt;
+      &lt;p&gt;Bienvenue sur mon app React.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></div>
+
+    <p>Remarque la syntaxe <code>&lt;Titre /&gt;</code> — une balise auto-fermante, exactement comme <code>&lt;img /&gt;</code> en HTML.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Afficher un composant React sur une page</h2>
+    <p>Enfin, on demande à React de prendre le contrôle d'un élément du DOM — traditionnellement une <code>&lt;div id="root"&gt;&lt;/div&gt;</code> vide — et d'y afficher un composant.</p>
+
+    <div class="code-block"><code>ReactDOM.createRoot(document.getElementById(<span class="c-str">"root"</span>)).render(&lt;App /&gt;);</code></div>
+
+    <div class="def-box">
+      <div class="def-label">Dans cet éditeur</div>
+      <p>DevYoon charge React, ReactDOM et Babel directement depuis un CDN, sans étape de build (pas de <code>npm</code>, pas de Vite). C'est parfait pour apprendre, mais un vrai projet React en production utilise presque toujours un outil de build — tu le verras si tu continues avec React plus tard.</p>
+    </div>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>Un composant React est une fonction (nom en majuscule) qui renvoie du JSX.</li>
+      <li>Le JSX ressemble à du HTML mais est transformé en JavaScript par Babel avant exécution.</li>
+      <li>Les accolades <code>{ }</code> insèrent une expression JavaScript dans le JSX.</li>
+      <li>Un composant doit renvoyer un seul élément racine.</li>
+      <li>Les composants s'assemblent entre eux, comme des balises — c'est la composition.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="../parcours-web.html" class="lesson-nav-btn lnb-ghost">← Retour au parcours</a>
+  <a href="phase-05-cours-2.html" class="lesson-nav-btn lnb-primary">Cours 2/3 : Props →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projet Phase 04 — Quiz Git & dépôt réel · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-04-cours-1.html" class="nav-cta">Revoir les cours</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Projet · Phase 04</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-projet">Projet · Phase 04</span>
+      <span class="lesson-duration">≈ 1h + le dépôt réel</span>
+    </div>
+    <h1 class="lesson-title">Quiz Git & dépôt réel</h1>
+    <p class="lesson-intro">Cette phase a deux volets, et c'est volontaire. Git ne s'exécute pas dans un navigateur — l'éditeur de DevYoon ne peut donc pas te faire taper de vraies commandes Git. Le quiz valide ta phase sur le site ; le dépôt réel est ce qui compte vraiment pour la suite de ta pratique.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Volet 1 — Le quiz (validé sur le site)</h2>
+    <p>Huit questions sur le terminal et Git : commandes de base, cycle add/commit, <code>.gitignore</code>, publication sur GitHub. C'est ce quiz qui marque la Phase 04 comme terminée dans ton tableau de bord.</p>
+
+    <div class="brief-box">
+      <h3>Notions évaluées</h3>
+      <div class="checklist">
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>Navigation en ligne de commande (<code>cd</code>, <code>ls</code>, <code>pwd</code>)</p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>Le cycle <code>add</code> → <code>commit</code></p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>Le rôle de <code>.gitignore</code></p>
+        </div>
+        <div class="check-row">
+          <span class="check-mark"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <p>Publier un dépôt local sur GitHub</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Volet 2 — Le vrai dépôt (sur ta machine, non noté ici)</h2>
+    <p>La compétence réelle de cette phase se pratique en dehors du site. Voici ce qu'il faut faire, dans l'ordre :</p>
+
+    <ol>
+      <li>Installe Git si ce n'est pas déjà fait, puis configure ton nom et ton email (<code>git config --global user.name "..."</code>)</li>
+      <li>Reprends ta page personnelle de la Phase 01 (ou ta liste de tâches de la Phase 03), et transforme son dossier en dépôt Git (<code>git init</code>)</li>
+      <li>Ajoute un fichier <code>.gitignore</code> pertinent, fais un premier commit</li>
+      <li>Crée un dépôt vide sur GitHub, connecte-le avec <code>git remote add origin</code>, puis <code>git push</code></li>
+      <li>Vérifie que ton code est bien visible sur la page GitHub de ton dépôt</li>
+    </ol>
+
+    <div class="example-callout">
+      <div class="def-label">Pourquoi ce n'est pas noté automatiquement</div>
+      <p>Valider un vrai dépôt GitHub demanderait d'te connecter à ton compte GitHub personnel depuis le site — une fonctionnalité qui n'existe pas encore ici. Ce volet reste donc auto-dirigé : c'est un vrai jalon pour ta pratique, mais pas un pré-requis technique pour débloquer la Phase 05.</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Critère de réussite</h2>
+    <p>Le quiz est validé à 8/8. Et, idéalement, un vrai dépôt existe sur ton compte GitHub avec au moins deux commits d'historique — ta première trace de travail versionné.</p>
+  </section>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-04-cours-2.html" class="lesson-nav-btn lnb-ghost">← Revoir les cours</a>
+  <a href="editor-web.html?phase=04" class="lesson-nav-btn lnb-primary">Ouvrir le quiz →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>

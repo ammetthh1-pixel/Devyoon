@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 03 · Cours 3/3 — Événements et interactivité · DevYoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../course.css">
+</head>
+<body class="track-theme-web">
+
+<header class="header" id="header">
+  <a href="../index.html" class="logo"><span class="logo-name">Dev<span>Yoon</span></span></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"/>
+  <label for="nav-toggle" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+  <nav class="nav">
+    <a href="../parcours-web.html">Parcours Web</a>
+    <a href="../parcours-ia.html">Parcours IA</a>
+    <a href="../login.html" style="opacity:.85">Se connecter</a>
+    <a href="phase-03-projet.html" class="nav-cta">Voir le projet</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a><span>/</span><a href="../parcours-web.html">Parcours Web</a><span>/</span><span>Phase 03</span></div>
+    <div class="lesson-meta-row">
+      <span class="lesson-kind kind-cours">Cours 3/3 · Phase 03</span>
+      <span class="lesson-duration">≈ 30 min de lecture</span>
+    </div>
+    <h1 class="lesson-title">Événements et interactivité</h1>
+    <p class="lesson-intro">Tu sais écrire du JavaScript et manipuler le DOM. Il manque la pièce qui relie les deux à l'utilisateur : les événements — ce qui déclenche ton code au bon moment, pas avant.</p>
+  </div>
+</section>
+
+<article class="lesson-body">
+
+  <section class="lesson-section">
+    <h2>Le principe d'un événement</h2>
+    <p>Un événement est quelque chose qui se produit sur la page — un clic, une touche pressée, un formulaire envoyé. JavaScript peut "écouter" un événement précis sur un élément précis, et exécuter une fonction quand il se produit.</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 460 140" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="45" width="130" height="50" rx="8" fill="#1C2333" stroke="#1E2D45"/>
+        <text x="85" y="75" text-anchor="middle" fill="#F0F4FF" font-family="Space Grotesk" font-size="13" font-weight="700">Clic utilisateur</text>
+        <line x1="150" y1="70" x2="290" y2="70" stroke="#FF6B35" stroke-width="1.5"/>
+        <polygon points="290,65 300,70 290,75" fill="#FF6B35"/>
+        <text x="220" y="55" text-anchor="middle" fill="#FF6B35" font-family="Fira Code" font-size="10">déclenche</text>
+        <rect x="300" y="45" width="140" height="50" rx="8" fill="#1C2333" stroke="#FF6B35"/>
+        <text x="370" y="75" text-anchor="middle" fill="#F0F4FF" font-family="Fira Code" font-size="12">fonction appelée</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">L'élément écouté ne fait rien tant que l'événement ne se produit pas — ton code attend, prêt à réagir.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>addEventListener</h2>
+    <p><code>addEventListener()</code> est la méthode standard pour écouter un événement : elle prend le nom de l'événement, et la fonction à exécuter quand il se produit.</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> bouton = document.querySelector(<span class="c-str">"#mon-bouton"</span>);
+
+bouton.addEventListener(<span class="c-str">"click"</span>, () => {
+  console.log(<span class="c-str">"Le bouton a été cliqué !"</span>);
+});</code></div>
+
+    <h3>Les événements les plus courants</h3>
+    <ul>
+      <li><code>click</code> — un clic (bouton, lien, n'importe quel élément)</li>
+      <li><code>input</code> — la valeur d'un champ change, à chaque frappe</li>
+      <li><code>submit</code> — un formulaire est envoyé</li>
+      <li><code>keydown</code> — une touche du clavier est enfoncée</li>
+      <li><code>DOMContentLoaded</code> — la page a fini de charger (utile pour lancer ton code au bon moment)</li>
+    </ul>
+  </section>
+
+  <section class="lesson-section">
+    <h2>L'objet event</h2>
+    <p>La fonction appelée reçoit automatiquement un objet décrivant l'événement — souvent nommé <code>event</code> ou <code>e</code>. Deux usages reviennent très souvent : connaître l'élément concerné, et empêcher un comportement par défaut.</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> formulaire = document.querySelector(<span class="c-str">"form"</span>);
+
+formulaire.addEventListener(<span class="c-str">"submit"</span>, (event) => {
+  event.preventDefault();   <span class="c-com">// empêche le rechargement de la page</span>
+  console.log(<span class="c-str">"Formulaire intercepté, traité en JS"</span>);
+});
+
+document.querySelector(<span class="c-str">".liste"</span>).addEventListener(<span class="c-str">"click"</span>, (event) => {
+  console.log(<span class="c-str">"Élément cliqué :"</span>, event.target);  <span class="c-com">// l'élément exact touché</span>
+});</code></div>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p><code>event.target</code> est l'élément exact sur lequel l'événement s'est produit. <code>event.preventDefault()</code> annule le comportement par défaut du navigateur (recharger la page sur un submit, suivre un lien, etc.).</p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Délégation d'événements</h2>
+    <p>Plutôt que d'attacher un écouteur à chaque élément d'une liste (y compris ceux ajoutés plus tard), on attache <strong>un seul écouteur au conteneur parent</strong>, et on regarde quel enfant a été touché via <code>event.target</code>.</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> liste = document.querySelector(<span class="c-str">"ul.taches"</span>);
+
+liste.addEventListener(<span class="c-str">"click"</span>, (event) => {
+  <span class="c-key">if</span> (event.target.tagName === <span class="c-str">"LI"</span>) {
+    event.target.classList.toggle(<span class="c-str">"terminee"</span>);
+  }
+});</code></div>
+    <p>Cette technique fonctionne même pour des éléments ajoutés au DOM <strong>après</strong> la mise en place de l'écouteur — un avantage direct pour une liste de tâches où on ajoute des éléments dynamiquement.</p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Assembler le tout</h2>
+    <p>Un exemple complet qui combine sélection, création d'élément et événement — la structure exacte que ton projet va réutiliser.</p>
+
+    <div class="code-block"><code><span class="c-key">const</span> input = document.querySelector(<span class="c-str">"#nouvelle-tache"</span>);
+<span class="c-key">const</span> bouton = document.querySelector(<span class="c-str">"#ajouter"</span>);
+<span class="c-key">const</span> liste = document.querySelector(<span class="c-str">"#liste-taches"</span>);
+
+bouton.addEventListener(<span class="c-str">"click"</span>, () => {
+  <span class="c-key">if</span> (input.value.trim() === <span class="c-str">""</span>) <span class="c-key">return</span>;
+
+  <span class="c-key">const</span> item = document.createElement(<span class="c-str">"li"</span>);
+  item.textContent = input.value;
+  liste.appendChild(item);
+
+  input.value = <span class="c-str">""</span>;   <span class="c-com">// vide le champ après ajout</span>
+});</code></div>
+  </section>
+
+  <div class="summary-box">
+    <div class="def-label">À retenir</div>
+    <ul>
+      <li>Un événement déclenche une fonction au moment où il se produit — clic, saisie, envoi de formulaire...</li>
+      <li><code>addEventListener(type, fonction)</code> est la méthode standard pour écouter un événement.</li>
+      <li><code>event.target</code> identifie l'élément touché, <code>event.preventDefault()</code> annule le comportement par défaut.</li>
+      <li>La délégation (écouteur sur le parent) gère aussi les éléments ajoutés après coup.</li>
+      <li>Sélection + création d'éléments + événements, combinés, suffisent à construire une vraie application interactive.</li>
+    </ul>
+  </div>
+
+</article>
+
+<nav class="lesson-nav">
+  <a href="phase-03-cours-2.html" class="lesson-nav-btn lnb-ghost">← Cours 2/3</a>
+  <a href="phase-03-projet.html" class="lesson-nav-btn lnb-primary">Passer au projet →</a>
+</nav>
+
+</main>
+
+<script>
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+</script>
+
+</body>
+</html>
